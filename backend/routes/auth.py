@@ -18,8 +18,12 @@ def login():
 # ===============================
 # 👤 WHO AM I (Hospital Profile)
 # ===============================
-@auth_bp.route("/auth/me", methods=["GET"])
+@auth_bp.route("/auth/me", methods=["GET", "OPTIONS"])
 def me():
+    # ✅ Handle CORS preflight
+    if request.method == "OPTIONS":
+        return "", 200
+
     try:
         auth_header = request.headers.get("Authorization")
         if not auth_header or not auth_header.startswith("Bearer "):
