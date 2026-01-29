@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_cors import CORS
 
@@ -12,33 +13,24 @@ from routes.doctor_notes import doctor_notes_bp
 from routes.outcome import outcome_bp
 from routes.dashboard import dashboard_bp
 from routes.hospital_request import hospital_request_bp
-from routes import register_routes
 from routes.admin_reject import admin_reject_bp
 from routes.admin_stats import admin_stats_bp
 from routes.admin_audit import admin_audit_bp
-
-
-
-from config import DEBUG
+from routes import register_routes
 
 
 def create_app():
     app = Flask(__name__)
 
-    # ===============================
-    # ✅ ENABLE CORS (FIXED)
-    # ===============================
+    # ✅ CORS (correct)
     CORS(
         app,
         resources={r"/*": {"origins": "*"}},
-        supports_credentials=True,
         allow_headers=["Content-Type", "Authorization"],
         methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
     )
 
-    # ===============================
-    # 🔗 REGISTER BLUEPRINTS
-    # ===============================
+    # 🔗 Blueprints
     app.register_blueprint(auth_bp)
     app.register_blueprint(predict_bp)
     app.register_blueprint(timeline_bp)
@@ -55,14 +47,8 @@ def create_app():
     app.register_blueprint(admin_audit_bp)
 
     register_routes(app)
-
-
-
     return app
 
 
-if __name__ == "__main__":
-    app = create_app()
-    app.run(debug=DEBUG)
-    port = int(os.environ.get("PORT", 8080))
-    app.run(host="0.0.0.0", port=port)
+# 🚀 THIS is what Gunicorn loads
+app = create_app()
