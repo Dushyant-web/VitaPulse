@@ -19,20 +19,24 @@ from routes.admin_audit import admin_audit_bp
 from routes import register_routes
 
 
+
 def create_app():
     app = Flask(__name__)
 
-    # ✅ CORS (correct)
     CORS(
         app,
-        origins=[
-            "https://vitapulsetrack.netlify.app"
-        ],
-        allow_headers=["Authorization"],
+        resources={
+            r"/*": {
+                "origins": [
+                    "https://vitapulsetrack.netlify.app"
+                ]
+            }
+        },
+        allow_headers=["Authorization", "Content-Type"],
         methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
     )
 
-    # 🔗 Blueprints
+    # Blueprints
     app.register_blueprint(auth_bp)
     app.register_blueprint(predict_bp)
     app.register_blueprint(timeline_bp)
@@ -52,5 +56,5 @@ def create_app():
     return app
 
 
-# 🚀 THIS is what Gunicorn loads
+# 🚀 Gunicorn entrypoint
 app = create_app()
