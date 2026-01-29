@@ -25,13 +25,16 @@ if (loginForm) {
 
       // 3️⃣ Ask backend who this hospital is
       const res = await fetch(`${BASE_URL}/auth/me`, {
+        method: "GET",
         headers: {
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
       });
 
       if (!res.ok) {
-        throw new Error("Failed to fetch hospital profile");
+        const errData = await res.json();
+        throw new Error(errData.error || "Login failed");
       }
 
       const hospital = await res.json();

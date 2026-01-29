@@ -25,8 +25,10 @@ def create_app():
     # ✅ CORS (correct)
     CORS(
         app,
-        resources={r"/*": {"origins": "*"}},
-        allow_headers=["Content-Type", "Authorization"],
+        origins=[
+            "https://vitapulsetrack.netlify.app"
+        ],
+        allow_headers=["Authorization"],
         methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
     )
 
