@@ -9,5 +9,5 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-// 🌐 Railway Backend URL
-const BASE_URL = "https://vitapulse-production-32c7.up.railway.app";
+// 🌐 LOCAL BACKEND
+const BASE_URL = "http://127.0.0.1:5000";

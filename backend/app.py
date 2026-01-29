@@ -18,25 +18,21 @@ from routes.admin_stats import admin_stats_bp
 from routes.admin_audit import admin_audit_bp
 from routes import register_routes
 
+from config import DEBUG
 
 
 def create_app():
     app = Flask(__name__)
 
+    # ✅ LOCAL DEV CORS (open)
     CORS(
         app,
-        resources={
-            r"/*": {
-                "origins": [
-                    "https://vitapulsetrack.netlify.app"
-                ]
-            }
-        },
-        allow_headers=["Authorization", "Content-Type"],
+        resources={r"/*": {"origins": "*"}},
+        allow_headers=["Content-Type", "Authorization"],
         methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
     )
 
-    # Blueprints
+    # 🔗 Blueprints
     app.register_blueprint(auth_bp)
     app.register_blueprint(predict_bp)
     app.register_blueprint(timeline_bp)
@@ -56,5 +52,10 @@ def create_app():
     return app
 
 
-# 🚀 Gunicorn entrypoint
-app = create_app()
+if __name__ == "__main__":
+    app = create_app()
+    app.run(
+        host="127.0.0.1",
+        port=5000,
+        debug=DEBUG
+    )
