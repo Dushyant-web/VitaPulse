@@ -1,0 +1,244 @@
+/* 
+ * VitaPulse Admin Login Styles
+ * Theme: Secure Clinical Institutional
+ * Design Keywords: secure, institutional, restricted, professional, hospital-grade, controlled, compliant, serious
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+    /* Clinical Color Palette */
+    --bg-base: #0a0c10;
+    --bg-surface: #11141a;
+    --brand-primary: #00e5ff;
+    --brand-muted: #1a3a4a;
+    --text-primary: #e0e6ed;
+    --text-muted: #8892b0;
+    --border-clinical: #233554;
+    --border-focus: #00e5ff;
+    --error-red: #ff4d4d;
+    --success-green: #00ff9d;
+
+    /* Security Spacing */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 32px;
+    --spacing-xl: 48px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    line-height: 1.5;
+}
+
+/* 
+ * 1. Page Atmosphere - Optional Decorative Layers
+ */
+.clinical-bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 0%, var(--bg-base) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.clinical-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(var(--border-clinical) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border-clinical) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.scanner-line {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--brand-primary), transparent);
+    opacity: 0.1;
+    z-index: 2;
+    pointer-events: none;
+    animation: scannerLoop 8s linear infinite;
+}
+
+@keyframes scannerLoop {
+    0% {
+        top: -2%;
+    }
+
+    100% {
+        top: 102%;
+    }
+}
+
+/* 
+ * 2. Institutional Title
+ */
+h2 {
+    font-size: 1.25rem;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-xl);
+    z-index: 10;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+h2::before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: var(--brand-primary);
+    display: inline-block;
+    box-shadow: 0 0 10px var(--brand-primary);
+}
+
+/* 
+ * 3. Login Form Experience - Secure Inputs
+ */
+input {
+    width: 320px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-clinical);
+    padding: var(--spacing-md);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    border-radius: 0;
+    /* Sharp corners for institutional feel */
+    transition: all 0.2s ease;
+    z-index: 10;
+    position: relative;
+}
+
+input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.5;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--border-focus);
+    background: #161a21;
+    box-shadow: 0 0 0 4px rgba(0, 229, 255, 0.05);
+}
+
+/* 
+ * 4. Authoritative CTA
+ */
+button#loginBtn {
+    width: 320px;
+    background: transparent;
+    border: 1px solid var(--brand-primary);
+    color: var(--brand-primary);
+    padding: var(--spacing-md);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    border-radius: 30px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+    position: relative;
+    margin-top: var(--spacing-sm);
+}
+
+button#loginBtn:hover {
+    background: var(--brand-primary);
+    color: var(--bg-base);
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+}
+
+button#loginBtn:active {
+    transform: translateY(1px);
+    filter: brightness(0.9);
+}
+
+/* 
+ * 5. Error Ready Styling
+ */
+#error {
+    margin-top: var(--spacing-lg);
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+    height: 1.2em;
+    z-index: 10;
+    position: relative;
+    opacity: 0.9;
+    letter-spacing: 0.05em;
+}
+
+/* 
+ * Accessibility & Responsiveness
+ */
+@media (max-width: 480px) {
+
+    input,
+    button#loginBtn {
+        width: 280px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scanner-line {
+        display: none;
+    }
+
+    button#loginBtn {
+        transition: none;
+    }
+}
+
+/* Form Container Spacing (Structural helper for existing br tags) */
+br {
+    display: none;
+    /* Hide original br tags to control layout with flex/gap if we could, but we can't alter structure. 
+                     Wait, I shouldn't hide them if it breaks things. Let's keep them and style the layout carefully. */
+}
+
+/* Re-evaluating structural constraints: 
+   "DO NOT modify, delete, or rearrange the existing HTML body or login form structure."
+   The br tags are there, I must work around them.
+*/
+
+br {
+    display: block;
+    content: "";
+    margin-top: var(--spacing-sm);
+}

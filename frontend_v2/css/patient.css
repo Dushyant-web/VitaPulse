@@ -1,0 +1,285 @@
+/* ================= ROOT ================= */
+:root {
+  --bg: #0b1116;
+  --card: rgba(20, 32, 40, 0.65);
+  --accent: #27e0c1;
+  --accent-soft: rgba(39,224,193,.2);
+  --danger: #ff5c5c;
+  --text: #e8f1f2;
+  --muted: #9fb3bd;
+}
+
+/* ================= GLOBAL ================= */
+* {
+  box-sizing: border-box;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  padding: 24px;
+  overflow-x: hidden;
+}
+
+/* ================= BACKGROUND ================= */
+.vp-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+.vp-grid {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(39,224,193,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(39,224,193,.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: drift 20s linear infinite;
+}
+
+.vp-scan {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(39,224,193,.08),
+    transparent
+  );
+  animation: scan 6s linear infinite;
+}
+
+.vp-pulse {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 120px rgba(39,224,193,.08);
+  animation: pulse 4s ease-in-out infinite;
+}
+
+/* ================= HEADER ================= */
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.top-bar h1 {
+  font-size: 24px;
+  letter-spacing: .4px;
+}
+
+#backBtn {
+  background: none;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ================= CARDS ================= */
+.card {
+  margin-bottom: 20px;
+}
+
+.glass {
+  background: var(--card);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.35);
+  animation: fadeUp .8s ease both;
+}
+
+/* ================= SUMMARY ================= */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px,1fr));
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.metric {
+  background: rgba(255,255,255,.03);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.metric:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 30px var(--accent-soft);
+}
+
+.metric span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ================= ACTIONS ================= */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.actions button,
+.actions select {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+
+.actions button:hover {
+  background: var(--accent);
+  color: #000;
+  box-shadow: 0 0 25px var(--accent-soft);
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes drift {
+  from { transform: translate(0,0); }
+  to { transform: translate(-40px,-40px); }
+}
+
+@keyframes scan {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(100%); }
+}
+
+@keyframes pulse {
+  0%,100% { opacity: .6; }
+  50% { opacity: 1; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.visit-body {
+  animation: visitOpen .35s ease;
+}
+.visit-card {
+  margin-bottom: 20px; 
+}
+
+.badge {
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.badge.high {
+  color: #ff4d4d;
+}
+.badge.medium {
+  color: #ffc107;
+}
+.badge.low {
+  color: #2ee59d;
+}
+.visit-header .badge {
+  all: unset;         
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 6px;
+  display: block;         
+}
+.visit-header .badge.high {
+  color: #ff4d4d;
+}
+
+.visit-header .badge.medium {
+  color: #ffc107;
+}
+
+.visit-header .badge.low {
+  color: #2ee59d;
+}
+.visit-header{
+  cursor: pointer;
+}
+.timeline-divider {
+  border: 0;
+  height: 1px;
+  background-color: #444;
+  margin: 10px 0;
+}
+.cardiac-box{
+  margin-top: 25px;
+}
+.hint{
+  opacity: 0.5;
+}
+.glass{
+  margin-bottom: 20px;
+}
+#newRecordBtn{
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all .3s ease;
+  margin-left: auto;
+}
+#newRecordBtn:hover{
+  background: var(--accent);
+  color: #000;
+  box-shadow: 0 0 25px var(--accent-soft);
+}
+#editPatientBtn{
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+#editPatientBtn:hover{
+  background: var(--accent);
+  color: #000;
+  box-shadow: 0 0 25px var(--accent-soft);
+}
+#trendsBtn{
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 10px;
+  margin: 10px;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+#trendsBtn:hover{
+  background: var(--accent);
+  color: #000;
+  box-shadow: 0 0 25px var(--accent-soft);  
+}
+
+.delete-record-btn {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: var(--danger);
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.delete-record-btn:hover {
+  text-decoration: underline;
+}

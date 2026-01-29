@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel | VitaPulse</title>
+  <link rel="stylesheet" href="css/admin-requests.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <script>
+    firebase.initializeApp({
+      apiKey: "AIzaSyBKBYhQVzRMb9qOXIewuPDsXroP7Zyj_VM",
+      authDomain: "vitapulse-9606a.firebaseapp.com",
+      projectId: "vitapulse-9606a",
+    });
+  </script>
+</head>
+
+<body>
+    <div class="h-audit">
+  <h2>Hospital Requests</h2>
+  <a href="admin-audit.html">
+    <button class="audit">Logs</button>
+  </a>
+  </div>
+
+  <div id="stats" style="display:flex;gap:15px;margin-bottom:20px;"></div>
+
+<div style="margin-bottom:15px;">
+  <button onclick="loadByStatus('pending')">🕒 Pending</button>
+  <button onclick="loadByStatus('approved')">✅ Approved</button>
+  <button onclick="loadByStatus('rejected')">❌ Rejected</button>
+</div>
+
+<div id="list"></div>
+<p id="error" style="color:red;"></p>
+
+<script src="js/admin-requests.js"></script>
+</body>
+</html>

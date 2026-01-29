@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Edit Patient</title>
+
+    <link rel="stylesheet" href="css/edit-patient.css" />
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="js/firebase-init.js"></script>
+    <script type="module" src="js/edit-patient.js"></script>
+</head>
+
+<body>
+
+
+    <div class="edit-container">
+        <div class="edit-card">
+            <div class="header-section">
+                <h2>Edit Patient</h2>
+                <div class="ecg-line"></div>
+            </div>
+
+            <form id="editPatientForm">
+
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="name" placeholder="Full Name" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="age">Age</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="age" min="0" placeholder="25" />
+                        </div>
+                    </div>
+
+                    <div class="form-group half">
+                        <label for="gender">Gender</label>
+                        <div class="input-wrapper">
+                            <select id="gender">
+                                <option value="1">Male</option>
+                                <option value="0">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="patientEmail">Patient Email</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="patientEmail" placeholder="patient@example.com" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="guardianEmail">Guardian Email</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="guardianEmail" placeholder="guardian@example.com" />
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                    <button type="button" id="cancelBtn" class="btn-secondary">Cancel</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+.visit-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  background: #fff;
+}
+
+.visit-header {
+  padding: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.visit-body {
+  padding: 14px;
+  border-top: 1px solid var(--border);
+}

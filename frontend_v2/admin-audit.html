@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Audit Logs | VitaPulse</title>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBKBYhQVzRMb9qOXIewuPDsXroP7Zyj_VM",
+      authDomain: "vitapulse-9606a.firebaseapp.com",
+      projectId: "vitapulse-9606a",
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f9fc;
+      padding: 20px;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background: #f0f2f5;
+    }
+
+    .approved {
+      color: green;
+      font-weight: bold;
+    }
+
+    .rejected {
+      color: red;
+      font-weight: bold;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>🧾 Admin Audit Logs</h2>
+  <p>Last administrative actions performed</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Action</th>
+        <th>Hospital Email</th>
+        <th>Admin ID</th>
+        <th>Timestamp</th>
+      </tr>
+    </thead>
+    <tbody id="auditTable"></tbody>
+  </table>
+
+  <p id="error" class="error"></p>
+
+  <script src="js/admin-audit.js"></script>
+
+</body>
+</html>

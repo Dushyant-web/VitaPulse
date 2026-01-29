@@ -1,0 +1,280 @@
+/* 
+   VitaPulse - Request Hospital Access Styling
+   Theme: Clinical, Institutional, Premium Dark
+*/
+
+:root {
+    /* Color Palette - Clinical & Secure */
+    --bg-base: #0a0c12;
+    --bg-surface: #11141b;
+    --bg-surface-accent: rgba(79, 209, 197, 0.03);
+
+    --accent-primary: #4fd1c5;
+    /* Muted Cyan */
+    --accent-primary-hover: #38b2ac;
+    --accent-secondary: #2c7a7b;
+
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-focus: rgba(79, 209, 197, 0.4);
+
+    --glass-bg: rgba(17, 20, 27, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.05);
+
+    --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+
+    --ease-clinical: cubic-bezier(0.4, 0, 0.2, 1);
+    --glow-subtle: 0 0 20px rgba(79, 209, 197, 0.1);
+}
+
+/* 1. Base Reset & Typography */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body.request-access-page {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    padding: 2rem 1rem;
+}
+
+/* 2. Background Layers (OPTIONAL Ambient Animation) */
+.bg-gradient-radial {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, #161b22 0%, #0a0c12 100%);
+    z-index: -3;
+}
+
+.bg-noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.02;
+    pointer-events: none;
+    z-index: -2;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.bg-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% -20%, rgba(79, 209, 197, 0.05), transparent 70%);
+    z-index: -1;
+    animation: breathing-glow 10s var(--ease-clinical) infinite alternate;
+}
+
+@keyframes breathing-glow {
+    0% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bg-glow {
+        animation: none;
+    }
+}
+
+/* 3. Header Styling */
+h1 {
+    font-size: 1.75rem;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    margin-bottom: 2.5rem;
+    color: var(--text-primary);
+    text-align: center;
+    opacity: 0;
+    animation: fade-up 0.8s var(--ease-clinical) forwards;
+}
+
+/* 4. Form Container */
+#hospitalRequestForm {
+    width: 100%;
+    max-width: 580px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    animation: fade-up 0.8s var(--ease-clinical) 0.1s forwards;
+    position: relative;
+}
+
+#hospitalRequestForm::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+    opacity: 0.3;
+}
+
+/* 5. Input & Field Styling */
+input,
+select,
+textarea {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    padding: 0.875rem 1rem;
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    font-size: 0.95rem;
+    transition: all 0.2s var(--ease-clinical);
+    outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--text-muted);
+}
+
+input:hover,
+select:hover,
+textarea:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--accent-primary);
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 0 3px rgba(79, 209, 197, 0.1);
+}
+
+/* Select custom arrow */
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.2rem;
+    padding-right: 2.5rem;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* 6. Buttons */
+button[type="submit"] {
+    background-color: var(--accent-primary);
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s var(--ease-clinical);
+    margin-top: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+button[type="submit"]:hover {
+    background-color: var(--accent-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    text-decoration: none;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.75rem;
+    transition: color 0.2s var(--ease-clinical);
+}
+
+.btn-secondary:hover {
+    color: var(--text-primary);
+}
+
+/* 7. Status & Feedback */
+#statusMessage {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    text-align: center;
+    color: var(--text-secondary);
+    min-height: 1.5rem;
+}
+
+/* 8. Animations */
+@keyframes fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 9. Responsive adjustments */
+@media (max-width: 640px) {
+    #hospitalRequestForm {
+        padding: 2rem 1.5rem;
+    }
+
+    body.request-access-page {
+        padding: 1.5rem 1rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+    }
+}
+
+/* 10. Accessibility */
+:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+}

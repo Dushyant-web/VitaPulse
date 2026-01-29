@@ -1,0 +1,25 @@
+# Virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+
+
+# Dataset
+backend/data/
+
+# OS / IDE
+.DS_Store
+.vscode/
+
+
+
+backend/serviceAccountKey.json
+
+retraining_dataset.csv
+
+# Ignore large ML models
+backend/models/model.pkl
+backend/firebase_key.json

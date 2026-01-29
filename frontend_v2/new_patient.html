@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Add New Patient</title>
+
+    <link rel="stylesheet" href="css/new_patient.css" />
+
+    <!-- ================= FIREBASE SDK ================= -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <!-- ================= FIREBASE INIT ================= -->
+    <script src="js/firebase-init.js"></script>
+
+    <!-- ================= PAGE LOGIC ================= -->
+    <script type="module" src="js/new_patient.js"></script>
+</head>
+
+<body>
+    <!-- DECORATIVE BACKGROUNDS (Strictly visual) -->
+    <div class="clinical-bg"></div>
+    <div class="scan-overlay"></div>
+    <div class="vitals-grid"></div>
+    <div class="logo-ecg">
+      <div class="headline">
+        <a href="dashboard.html" class="logo">
+          <div class="logo-icon"></div>
+           <span>VitaPulse</span>
+        </a>
+      </div>
+    <div class="ecg-container">
+      <svg class="ecg-svg" viewBox="0 0 1000 150" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="ecg-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#4EE7FF; stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#2A6CFF; stop-opacity:1" />
+          </linearGradient>
+
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+          <feColorMatrix in="blur" type="matrix" values="
+            0 0 0 0 0.16 
+            0 0 0 0 0.42 
+            0 0 0 0 1.0  
+            0 0 0 0.6 0" result="coloredBlur" />
+          <feMerge>
+          <feMergeNode in="coloredBlur" />
+          <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        </defs>
+          <path class="ecg-line"
+          d="M 0,75 L 300,75 L 315,65 L 330,75 L 360,75 L 370,85 L 390,10 L 410,130 L 425,75 L 450,75 L 470,60 L 500,75 L 1000,75" />
+      </svg>
+    </div>
+    </div>
+    <div class="form-container">
+        <h2>Add New Patient</h2>
+
+        <form id="patientForm">
+
+            <label>
+                Patient Name
+                <input type="text" id="name" required />
+            </label>
+
+            <label>
+                Age
+                <input type="number" id="age" min="0" required />
+            </label>
+
+            <div
+              id="duplicateHint"
+              style="margin-top:6px;color:#b45309;font-size:0.9rem;"
+            ></div>
+
+            <label>
+                Gender
+                <select id="gender" required>
+                    <option value="">Select</option>
+                    <option value="1">Male</option>
+                    <option value="0">Female</option>
+                </select>
+            </label>
+
+            <label>
+                Mobile Number
+                <input type="text" id="mobile" required />
+            </label>
+
+            <!-- OPTIONAL EMAILS -->
+            <label>
+                Patient Email
+                <input type="email" id="patientEmail" />
+            </label>
+
+            <label>
+                Guardian Email (optional)
+                <input type="email" id="guardianEmail" />
+            </label>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Create Patient</button>
+                <button type="button" class="btn-outline" onclick="history.back()">Cancel</button>
+            </div>
+
+        </form>
+    </div>
+
+</body>
+
+</html>

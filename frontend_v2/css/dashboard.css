@@ -1,0 +1,819 @@
+:root {
+    /* --- Palette: Slate (Backgrounds) --- */
+    --bg-deep: #0f172a;
+    /* Main background */
+    --bg-surface: #1e293b;
+    /* Cards/Headers */
+    --bg-surface-hover: #334155;
+
+    /* --- Palette: Cyan/Teal (Medical Accents) --- */
+    --accent-primary: #06b6d4;
+    /* Cyan 500 */
+    --accent-glow: rgba(6, 182, 212, 0.4);
+    --accent-soft: rgba(6, 182, 212, 0.1);
+
+    /* --- Typography --- */
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+
+    /* --- Borders & Effects --- */
+    --border-subtle: #334155;
+    --shadow-elevation: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+
+    /* --- Animation Timings --- */
+    --ease-out-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ================= RESET & BASE ================= */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    /* Clean, native sans */
+    background-color: var(--bg-deep);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+p {
+    margin: 0;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
+    margin: 2rem 0;
+}
+
+/* ================= BACKGROUND ANIMATION LAYERS ================= */
+
+/* 1. Grid Breathing Background */
+.bg-animation-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    pointer-events: none;
+    background-image:
+        linear-gradient(var(--accent-soft) 1px, transparent 1px),
+        linear-gradient(90deg, var(--accent-soft) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+    /* Fade edges */
+    opacity: 0.3;
+    animation: breathe-grid 8s ease-in-out infinite;
+}
+
+/* 2. ECG Scan Line Loop */
+.scan-line {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent, rgba(6, 182, 212, 0.05) 50%, transparent);
+    background-size: 100% 200%;
+    animation: scan-vertical 12s linear infinite;
+}
+
+/* ================= HEADER ================= */
+
+.dashboard-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(15, 23, 42, 0.85);
+    /* Glass surface */
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+    /* Entrance */
+    animation: slide-in-top 0.8s var(--ease-out-back);
+}
+
+#hospitalName {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Red "Live" dot next to Hospital Header */
+#hospitalName::after {
+    content: '';
+    position: absolute;
+    top: 0px;
+    right: -12px;
+    width: 6px;
+    height: 6px;
+    background-color: #ef4444;
+    /* Red 500 */
+    border-radius: 50%;
+    box-shadow: 0 0 8px #ef4444;
+    animation: pulse-live 2s infinite;
+}
+
+#hospitalEmail {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+button {
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-smooth);
+    position: relative;
+}
+
+/* Logout (Outline) */
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    padding: 0.5rem 1.25rem;
+}
+
+.btn-outline:hover {
+    border-color: var(--text-secondary);
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-1px);
+    --glow-color: rgb(68, 67, 131);
+    --glow-spread-color: rgba(56, 54, 216, 0.781);
+    --enhanced-glow-color: rgb(162, 136, 185);
+    --btn-color: rgb(67, 92, 233);
+    color: white;
+    background-color: var(--glow-color);
+    box-shadow:
+    0 0 1em 0.25em var(--glow-color),
+    0 0 4em 2em var(--glow-spread-color),
+    inset 0 0 0.75em 0.25em var(--glow-color);
+    transition: 0.7s ease;
+}
+
+/* Primary Action (Add Patient) */
+.btn-primary {
+    background: var(--accent-primary);
+    color: #0c4a6e;
+    /* Dark text for contrast */
+    border: none;
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 6px rgba(6, 182, 212, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(6, 182, 212, 0.35);
+    filter: brightness(1.1);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Button Ripple effect logic would need JS, but we can do a subtle CSS shimmer */
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 60%);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+.btn-primary:active::after {
+    opacity: 1;
+    transform: scale(1);
+    transition: 0s;
+}
+
+/* Inputs */
+.search-section {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    animation: fade-in-up 0.8s var(--ease-smooth) 0.2s backwards;
+}
+
+.search-section h2 {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+input[type="text"] {
+    width: 100%;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.15), 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+    transform: scale(1.01);
+}
+
+/* Placeholder transition */
+input::placeholder {
+    color: var(--text-muted);
+    transition: color 0.3s;
+}
+
+input:focus::placeholder {
+    color: var(--text-secondary);
+}
+
+/* ================= LIST & CONTENT ================= */
+.patient-card{
+    cursor: pointer;
+}
+.patients-section {
+    max-width: 800px;
+    margin: 0 auto;
+    animation: fade-in-up 0.8s var(--ease-smooth) 0.4s backwards;
+}
+
+.patients-section h2 {
+    padding: 0 1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.patient-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.patient-list li {
+    background: var(--bg-surface);
+    margin-bottom: 0.75rem;
+    padding: 1.25rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s var(--ease-smooth);
+    opacity: 0;
+    animation: slide-in-right 0.6s var(--ease-out-back) forwards;
+}
+
+.patient-list li:nth-child(1) {
+    animation-delay: 0.5s;
+}
+
+.patient-list li:nth-child(2) {
+    animation-delay: 0.6s;
+}
+
+.patient-list li:nth-child(3) {
+    animation-delay: 0.7s;
+}
+
+.patient-list li:nth-child(4) {
+    animation-delay: 0.8s;
+}
+
+.patient-list li:nth-child(5) {
+    animation-delay: 0.9s;
+}
+
+/* Fallback for subsequent items */
+.patient-list li:nth-child(n+6) {
+    animation-delay: 1s;
+}
+
+.patient-list li:hover {
+    transform: translateX(5px) scale(1.01);
+    border-color: var(--accent-primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 4rem;
+    animation: fade-in-up 0.8s var(--ease-smooth) 0.6s backwards;
+}
+
+
+@keyframes breathe-grid {
+
+    0%,
+    100% {
+        opacity: 0.2;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(1.02);
+    }
+}
+
+@keyframes scan-vertical {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes slide-in-top {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in-up {
+    0% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-right {
+    0% {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse-live {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+    }
+
+    70% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .btn-outline {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+.action-buttons{
+    display: grid;
+    flex-direction: column;
+    gap: 14px;
+}
+.btn-action {
+  all: unset;
+  position: relative;
+  padding: 14px 20px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  color: white;
+  overflow: hidden;
+  isolation: isolate;
+
+  /* breathing life */
+  animation: breathe 3.5s ease-in-out infinite;
+  transition:
+    transform 0.25s cubic-bezier(.4,0,.2,1),
+    box-shadow 0.25s cubic-bezier(.4,0,.2,1);
+}
+
+@keyframes breathe {
+  0%, 100% { box-shadow: 0 0 0 rgba(0,0,0,0); }
+  50% { box-shadow: 0 0 22px rgba(255,255,255,0.12); }
+}
+
+.btn-action:hover {
+  transform: translateY(-3px) scale(1.03);
+}
+
+.btn-action:active {
+  transform: scale(0.95);
+}
+
+.btn-action::before {
+  content: "";
+  position: absolute;
+  inset: -60%;
+  background:
+    radial-gradient(circle,
+      rgba(255,255,255,0.35),
+      transparent 60%);
+  opacity: 0.25;
+  animation: pulse 1.8s ease-in-out infinite;
+  z-index: -2;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(0.95); opacity: 0.2; }
+  50% { transform: scale(1.1); opacity: 0.45; }
+}
+
+.btn-action::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      120deg,
+      transparent 40%,
+      rgba(255,255,255,0.6),
+      transparent 60%
+    );
+  transform: translateX(-130%);
+  opacity: 0;
+}
+
+.btn-action:hover::after {
+  animation: scan 0.9s ease;
+  opacity: 1;
+}
+
+@keyframes scan {
+  to { transform: translateX(130%); }
+}
+
+.new-record {
+  background:
+    linear-gradient(135deg, #00f5a0, #00c2a8);
+  box-shadow:
+    0 0 18px rgba(0,245,160,0.35),
+    inset 0 0 12px rgba(255,255,255,0.15);
+}
+
+.new-record:hover {
+  box-shadow:
+    0 14px 45px rgba(0,245,160,0.55),
+    inset 0 0 18px rgba(255,255,255,0.25);
+}
+
+.delete-patient {
+  background:
+    linear-gradient(135deg, #ff6a6a, #b80000);
+  box-shadow:
+    0 0 18px rgba(255,90,90,0.35),
+    inset 0 0 12px rgba(255,255,255,0.12);
+  animation-duration: 4.5s; 
+}
+
+.delete-patient:hover {
+  box-shadow:
+    0 16px 50px rgba(255,90,90,0.6),
+    inset 0 0 18px rgba(255,255,255,0.22);
+}
+
+/* Yeah maine edit kiya hain */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: #0f172a;
+  padding: 24px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.deleted-badge {
+  margin-top: 8px;
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+  background: rgba(255, 80, 80, 0.15);
+  color: #ff6b6b;
+  font-weight: 600;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.analytics-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 25px var(--accent-glow);
+}
+
+
+/* Prevent analytics styling from affecting patient rows */
+.patient-list > li.patient-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ================= ANALYTICS GRID ================= */
+
+.analytics-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 24px auto;
+
+  display: grid;
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  gap: 18px;
+
+  max-width: 900px;
+}
+
+/* Individual analytics cards */
+.analytics-card {
+  background: rgba(30, 41, 59, 0.85);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+
+  padding: 18px 16px;
+  text-align: center;
+
+  box-shadow: var(--shadow-elevation);
+  transition: all 0.3s var(--ease-smooth);
+
+  cursor: pointer;
+}
+
+/* Hover */
+.analytics-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  border-color: var(--accent-primary);
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(6, 182, 212, 0.35);
+}
+
+/* Active (clicked filter) */
+.analytics-card.active {
+  border-color: var(--accent-primary);
+  box-shadow:
+    0 0 0 2px rgba(6, 182, 212, 0.35),
+    0 12px 30px rgba(6, 182, 212, 0.25);
+}
+
+/* Label */
+.analytics-card small {
+  display: block;
+  color: var(--text-muted);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+/* Value */
+.analytics-card h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .analytics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 420px) {
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+#exportCsvBtn {
+    position: relative;
+    padding: 0.75rem 1.6rem;
+    margin-left: 350px;
+    margin-top: 30px;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 230, 230, 0.08),
+        rgba(0, 230, 230, 0.02)
+    );
+    border: 1px solid #1e2a3a;
+    border-radius: 6px;
+
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+
+    color: #00e6e6;
+    cursor: pointer;
+    overflow: hidden;
+
+    box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,0.02),
+        0 0 0 0 rgba(0,230,230,0.15);
+
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease,
+        color 0.3s ease,
+        box-shadow 0.4s ease,
+        transform 0.15s ease;
+}
+
+#exportCsvBtn {
+    animation: vp-export-idle 6s infinite;
+}
+
+#exportCsvBtn:hover {
+    border-color: #00e6e6;
+    background: rgba(0, 230, 230, 0.14);
+    color: #001417;
+
+    box-shadow:
+        0 0 0 1px #00e6e6,
+        0 0 28px rgba(0,230,230,0.25);
+}
+
+#exportCsvBtn::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -140%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.45),
+        transparent
+    );
+    transform: skewX(-25deg);
+    opacity: 0;
+}
+
+#exportCsvBtn:hover::after {
+    animation: vp-export-scan 0.6s ease-out;
+}
+
+#exportCsvBtn:active {
+    transform: scale(0.96);
+}
+
+#exportCsvBtn:focus-visible {
+    outline: none;
+    box-shadow:
+        0 0 0 2px rgba(0,230,230,0.35),
+        0 0 30px rgba(0,230,230,0.2);
+}
+
+#exportCsvBtn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    animation: none;
+    box-shadow: none;
+}
+
+@keyframes vp-export-idle {
+    0%, 93%, 100% {
+        box-shadow:
+            inset 0 0 0 1px rgba(255,255,255,0.02),
+            0 0 0 0 rgba(0,230,230,0.15);
+    }
+    95% {
+        box-shadow:
+            inset 0 0 0 1px rgba(255,255,255,0.02),
+            0 0 18px rgba(0,230,230,0.25);
+    }
+    97% {
+        box-shadow:
+            inset 0 0 0 1px rgba(255,255,255,0.02),
+            0 0 6px rgba(0,230,230,0.15);
+    }
+}
+
+@keyframes vp-export-scan {
+    0% {
+        left: -140%;
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+    }
+    100% {
+        left: 200%;
+        opacity: 0;
+    }
+}
+

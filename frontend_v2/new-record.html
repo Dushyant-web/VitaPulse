@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>New Patient Record</title>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="js/firebase-init.js"></script>
+
+  <link rel="stylesheet" href="css/new-record.css" />
+</head>
+<body>
+
+  <button onclick="history.back()">← Back</button>
+
+  <div class="page">
+
+    <header class="topbar">
+      <button class="back-btn" onclick="history.back()">← Back</button>
+
+      <div class="title">
+        <h1>New Patient Record</h1>
+        <p>Vitals • Lifestyle • Symptoms • ECG • Notes</p>
+      </div>
+
+      <!-- Doctor Avatar -->
+      <div class="doc-avatar" id="docAvatar" aria-hidden="true">
+        <div class="doc-card">
+          <div class="doc-head" id="docHead">
+            <div class="doc-hair"></div>
+            <div class="doc-face">
+              <div class="doc-eye left"><span class="pupil" id="pupilL"></span></div>
+              <div class="doc-eye right"><span class="pupil" id="pupilR"></span></div>
+              <div class="doc-mouth"></div>
+            </div>
+          </div>
+          <div class="doc-body">
+            <div class="doc-coat"></div>
+            <div class="doc-badge"></div>
+          </div>
+          <div class="doc-text">
+            <div class="doc-name">Doctor</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>📝 New Patient Record</h2>
+      <p id="patientInfo" class="muted">
+        <strong>Patient:</strong> <span id="patientName"></span> |
+        <strong>ID:</strong> <span id="patientId"></span>
+      </p>
+    </section>
+
+    <form id="recordForm">
+
+      <!-- ================= VITALS ================= -->
+      <section class="card">
+        <div class="card-head">
+          <h3>Vitals</h3>
+          <span class="pill">Clinical</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Age</label>
+            <input id="age" type="number" disabled />
+          </div>
+
+          <div class="form-group">
+            <label>Gender</label>
+            <input id="gender" type="text" disabled />
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <label>Weight (kg)
+            <input type="number" name="weight" step="0.1" required />
+          </label>
+
+          <label>Height (cm)
+            <input type="number" name="height" step="0.1" required />
+          </label>
+
+          <label>BMI
+            <input type="text" id="bmiPreview" disabled />
+          </label>
+
+          <label>Systolic BP
+            <input type="number" name="ap_hi" required />
+          </label>
+
+          <label>Diastolic BP
+            <input type="number" name="ap_lo" required />
+          </label>
+
+          <label>Cholesterol
+            <select name="cholesterol">
+              <option value="1">Normal</option>
+              <option value="2">Above Normal</option>
+              <option value="3">High</option>
+            </select>
+          </label>
+
+          <label>Glucose
+            <select name="gluc">
+              <option value="1">Normal</option>
+              <option value="2">Above Normal</option>
+              <option value="3">High</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <!-- ================= LIFESTYLE ================= -->
+      <section class="card">
+        <div class="card-head">
+          <h3>Lifestyle</h3>
+          <span class="pill">Habits</span>
+        </div>
+
+        <div class="chips">
+          <label class="chip">
+            <input type="checkbox" name="smoke" />
+            <span>Smoking</span>
+          </label>
+          <label class="chip">
+            <input type="checkbox" name="alco" />
+            <span>Alcohol</span>
+          </label>
+          <label class="chip">
+            <input type="checkbox" name="active" checked />
+            <span>Physically Active</span>
+          </label>
+        </div>
+      </section>
+
+      <!-- ================= SYMPTOMS ================= -->
+      <section class="card">
+        <div class="card-head">
+          <h3>Symptoms</h3>
+          <span class="pill">Reported</span>
+        </div>
+
+        <div class="grid-2">
+          <label>Chest Pain
+            <select name="chest_pain">
+              <option value="none">None</option>
+              <option value="mild">Mild</option>
+              <option value="moderate">Moderate</option>
+              <option value="severe">Severe</option>
+            </select>
+          </label>
+
+          <label>Dizziness
+            <select name="dizziness">
+              <option value="no">No</option>
+              <option value="mild">Mild</option>
+              <option value="severe">Severe</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="chips" style="margin-top:10px;">
+          <label class="chip">
+            <input type="checkbox" name="nausea" />
+            <span>Nausea</span>
+          </label>
+          <label class="chip">
+            <input type="checkbox" name="palpitations" />
+            <span>Palpitations</span>
+          </label>
+        </div>
+      </section>
+
+      <!-- ================= ECG ================= -->
+      <section class="card">
+        <div class="card-head">
+          <h3>ECG (Optional)</h3>
+          <span class="pill">Doctor-entered</span>
+        </div>
+
+        <div class="grid-2">
+          <label>Heart Rate
+            <input type="number" name="heart_rate" />
+          </label>
+
+          <label>PR Interval (ms)
+            <input type="number" name="pr_interval_ms" />
+          </label>
+
+          <label>QRS Duration (ms)
+            <input type="number" name="qrs_duration_ms" />
+          </label>
+
+          <label>QT Interval (ms)
+            <input type="number" name="qt_interval_ms" />
+          </label>
+        </div>
+
+        <label class="inline-check">
+          <input type="checkbox" name="arrhythmia_detected" />
+          <span>Arrhythmia Detected</span>
+        </label>
+      </section>
+
+      <!-- ================= DOCTOR NOTE ================= -->
+      <section class="card">
+        <div class="card-head">
+          <h3>Doctor Notes</h3>
+          <span class="pill">Notes</span>
+        </div>
+
+        <textarea
+          name="doctor_note"
+          rows="4"
+          placeholder="Clinical observations..."
+        ></textarea>
+      </section>
+
+      <div class="actions">
+        <button type="submit" class="btn primary">✅ Submit Record</button>
+        <button type="button" class="btn ghost" onclick="history.back()">Cancel</button>
+      </div>
+
+    </form>
+
+    <!-- Prediction sections unchanged (your ids preserved) -->
+    <section id="predictionResult" class="card" style="display:none;">
+      <h2>Prediction Result</h2>
+
+      <p><b>Risk:</b> <span id="resRisk"></span></p>
+      <p><b>Probability:</b> <span id="resProb"></span>%</p>
+      <p><b>Confidence:</b> <span id="resConfidence"></span></p>
+
+      <h3>Explanation</h3>
+      <p id="resExplanation"></p>
+
+      <h3>Top Factors</h3>
+      <ul id="resTopFactors"></ul>
+
+      <h3>Symptom Insights</h3>
+      <ul id="resSymptoms"></ul>
+
+      <h3>What If</h3>
+      <ul id="resWhatIf"></ul>
+
+      <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button id="saveReturnBtn" class="btn primary">Save & Return to Patient</button>
+        <button onclick="history.back()" class="btn ghost">Back</button>
+      </div>
+    </section>
+
+    <section class="card" id="predictionBox" style="display:none;">
+      <h3>🧠 Prediction Result</h3>
+
+      <p><b>Risk:</b> <span id="predRisk"></span></p>
+      <p><b>Probability:</b> <span id="predProb"></span>%</p>
+      <p><b>Confidence:</b> <span id="predConfidence"></span></p>
+
+      <h4>Explanation</h4>
+      <p id="predExplain"></p>
+
+      <h4>Top Factors</h4>
+      <ul id="predFactors"></ul>
+
+      <h4>Symptom Insights</h4>
+      <ul id="predSymptoms"></ul>
+
+      <h4>What If</h4>
+      <ul id="predWhatIf"></ul>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button id="repredictBtn" class="btn ghost">🔁 Re-Predict</button>
+        <button id="saveBtn" class="btn primary">💾 Save & Return</button>
+      </div>
+    </section>
+
+  </div>
+
+  <script type="module" src="js/new-record.js"></script>
+  <script src="js/doctor-avatar.js"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hospital Dashboard</title>
+
+  <link rel="stylesheet" href="css/dashboard.css" />
+
+  <!-- ================= FIREBASE SDK ================= -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- ================= FIREBASE INIT ================= -->
+  <script src="js/firebase-init.js"></script>
+
+  <!-- ================= DASHBOARD MODULE ================= -->
+  <script type="module" src="js/dashboard.js"></script>
+</head>
+
+<body>
+
+<header class="dashboard-header"> 
+  <div>
+    <h1 id="hospitalName">Hospital</h1>
+    <p id="hospitalEmail" class="muted">hospital@email.com</p>
+  </div>
+  <button id="logoutBtn" class="btn-outline">Logout</button>
+</header>
+
+<hr />
+
+<!-- ================= ANALYTICS ================= -->
+<section class="patients-section" id="analyticsSection">
+  <h2>Dashboard Analytics</h2>
+
+  <!-- ✅ ANALYTICS GRID -->
+  <ul id="analyticsCards" class="analytics-grid">
+    <li class="analytics-card" data-type="total">
+      <small>Total Patients</small>
+      <h2 id="totalPatients">—</h2>
+    </li>
+
+    <li class="analytics-card" data-type="today">
+      <small>New Today</small>
+      <h2 id="newToday">—</h2>
+    </li>
+
+    <li class="analytics-card" data-type="week">
+      <small>Last 7 Days</small>
+      <h2 id="newLast7">—</h2>
+    </li>
+
+    <li class="analytics-card" data-type="deleted">
+      <small>Deleted</small>
+      <h2 id="deletedPatients">—</h2>
+    </li>
+  </ul>
+
+  <!-- 📈 CHART -->
+  <div class="patient-card">
+    <canvas id="patientsChart" height="120"></canvas>
+  </div>
+
+  <button id="exportCsvBtn" class="btn-outline">Export CSV</button>
+</section>
+
+<hr />
+
+<!-- ================= SEARCH ================= -->
+<section class="search-section">
+  <h2>Search Patient</h2>
+  <input type="text" id="searchInput" placeholder="Enter patient mobile number" />
+</section>
+
+<hr />
+
+<!-- ================= PATIENT LIST ================= -->
+<section class="patients-section">
+  <h2>Recent Patients</h2>
+  <ul id="patientsList" class="patient-list"></ul>
+</section>
+
+<!-- ================= PATIENT CARD TEMPLATE ================= -->
+<template id="patient-card-template">
+  <li class="patient-card">
+    <div class="patient-info">
+      <strong class="patient-name"></strong>
+      — Age <span class="patient-age"></span><br />
+      Mobile: <span class="patient-mobile"></span><br />
+      ID: <span class="patient-id"></span>
+    </div>
+    <div class="action-buttons">
+      <button class="btn-action new-record">New Record</button>
+      <button class="btn-action delete-patient">Delete Record</button>
+    </div>
+  </li>
+</template>
+
+<hr />
+
+<!-- ================= ACTIONS ================= -->
+<section class="actions">
+  <button id="addPatientBtn" class="btn-primary">+ Add New Patient</button>
+</section>
+
+<!-- ================= BACKGROUND ================= -->
+<div class="bg-animation-layer"></div>
+<div class="scan-line"></div>
+
+<!-- ================= DELETE CONFIRM MODAL ================= -->
+<div id="deleteModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>Confirm Patient Deletion</h3>
+    <p class="muted">
+      Enter your hospital account password to confirm this deletion.
+    </p>
+
+    <input
+      type="password"
+      id="deletePassword"
+      placeholder="Hospital account password"
+    />
+
+    <div class="modal-actions">
+      <button id="cancelDelete" class="btn-outline">Cancel</button>
+      <button id="confirmDelete" class="btn-danger">Confirm Delete</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

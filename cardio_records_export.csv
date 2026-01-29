@@ -1,0 +1,23 @@
+active,age,alco,ap_hi,ap_lo,bmi,chest_pain,cholesterol,confidence,created_at,dizziness,ecg_arrhythmia_detected,ecg_heart_rate,ecg_pr_interval_ms,ecg_qrs_duration_ms,ecg_qt_interval_ms,gender,gluc,height,hospital_id,nausea,palpitations,patient_id,probability,risk_level,smoke,weight
+1,58,0,140,85,26.37,mild,3,High confidence,2026-01-24T20:08:12.421000+00:00,no,,,,,,1,2,172,9sj7fK67j0Pt76c8vlYNYcrLcXs1,0,0,Hkr6bQ7x4hsYLnCCdM77,,,1,78
+1,34,0,180,90,27.78,none,1,Medium confidence,2026-01-25T07:50:23.511000+00:00,no,False,88,100,180,445,1,1,180,QoeqFEpjIQT0NY3fkfUYjtreE452,0,0,000000000003,0.73,High,0,90
+0,34,1,140,90,27.78,severe,3,Medium confidence,2026-01-25T05:10:30.610000+00:00,severe,,,,,,1,3,180,QoeqFEpjIQT0NY3fkfUYjtreE452,1,1,000000000003,0.743,High,1,90
+1,34,0,180,90,27.78,none,1,Medium confidence,2026-01-25T07:50:16.525000+00:00,no,False,88,100,180,445,1,1,180,QoeqFEpjIQT0NY3fkfUYjtreE452,0,0,000000000003,0.73,High,0,90
+1,34,1,190,90,27.78,severe,3,Medium confidence,2026-01-25T08:33:36.301000+00:00,severe,True,120,100,200,455,1,3,180,QoeqFEpjIQT0NY3fkfUYjtreE452,1,1,000000000003,0.763,High,1,90
+1,34,0,180,90,27.78,none,1,Medium confidence,2026-01-25T07:50:22.126000+00:00,no,False,88,100,180,445,1,1,180,QoeqFEpjIQT0NY3fkfUYjtreE452,0,0,000000000003,0.73,High,0,90
+1,34,0,180,90,27.78,none,1,Medium confidence,2026-01-25T07:49:06.582000+00:00,no,,,,,,1,1,180,QoeqFEpjIQT0NY3fkfUYjtreE452,0,0,000000000003,0.73,High,0,90
+1,34,0,120,80,24.69,none,2,Medium confidence,2026-01-25T04:20:18.658000+00:00,no,,,,,,1,2,180,QoeqFEpjIQT0NY3fkfUYjtreE452,0,0,000000000003,0.38,Medium,1,80
+1,34,0,120,80,27.7,none,1,Medium confidence,2026-01-25T04:29:12.327000+00:00,no,,,,,,1,1,190,QoeqFEpjIQT0NY3fkfUYjtreE452,0,0,000000000003,0.25,Low,1,100
+1,34,0,120,80,27.7,none,1,Medium confidence,2026-01-25T04:27:17.936000+00:00,no,,,,,,1,1,190,QoeqFEpjIQT0NY3fkfUYjtreE452,0,0,000000000003,0.25,Low,0,100
+0,34,1,180,90,22.16,severe,3,Medium confidence,2026-01-25T04:46:46.721000+00:00,severe,,,,,,1,3,190,QoeqFEpjIQT0NY3fkfUYjtreE452,1,1,000000000003,0.693,High,1,80
+1,34,0,120,80,24.93,none,1,Medium confidence,2026-01-25T08:14:35.685000+00:00,no,,,,,,1,1,190,QoeqFEpjIQT0NY3fkfUYjtreE452,0,0,000000000003,0.27,Low,0,90
+1,34,0,120,80,27.78,none,1,Medium confidence,2026-01-25T05:19:22.789000+00:00,no,,,,,,1,1,180,QoeqFEpjIQT0NY3fkfUYjtreE452,0,0,000000000003,0.203,Low,0,90
+1,58,0,140,85,26.37,mild,3,High confidence,2026-01-24T13:59:35.276000+00:00,no,False,76,170,110,410,1,2,172,aFUjckrALt68Epx4R3mz,0,0,patient_001,,,1,78
+0,58,0,150,90,27.04,moderate,3,High confidence,2026-01-24T13:44:49.797000+00:00,mild,,,,,,1,2,172,aFUjckrALt68Epx4R3mz,1,1,patient_001,,,1,80
+1,45,0,130,85,25.95,none,2,Medium confidence,2026-01-25T06:00:28.904000+00:00,no,False,72,160,90,410,1,1,170,aFUjckrALt68Epx4R3mz,0,0,test_patient_001,0.623,High,0,75
+0,18,1,140,80,27.78,severe,2,Medium confidence,2026-01-25T15:36:03.195000+00:00,severe,True,88,120,180,460,1,2,180,yKHjR0zJRqcSnDbrLJILTaNWJbv1,1,1,000000000001,0.66,High,1,90
+0,18,1,180,90,27.78,severe,3,Medium confidence,2026-01-25T15:38:38.471000+00:00,severe,,,,,,1,3,180,yKHjR0zJRqcSnDbrLJILTaNWJbv1,1,1,000000000001,0.747,High,1,90
+1,18,0,120,80,27.78,none,1,Medium confidence,2026-01-25T15:40:59.516000+00:00,no,,,,,,1,1,180,yKHjR0zJRqcSnDbrLJILTaNWJbv1,0,0,000000000001,0.3,Medium,0,90
+0,18,1,140,80,27.78,severe,2,Medium confidence,2026-01-25T15:36:05.589000+00:00,severe,True,88,120,180,460,1,2,180,yKHjR0zJRqcSnDbrLJILTaNWJbv1,1,1,000000000001,0.66,High,1,90
+0,18,1,140,80,27.78,severe,2,Medium confidence,2026-01-25T15:35:06.188000+00:00,severe,True,88,120,180,460,1,2,180,yKHjR0zJRqcSnDbrLJILTaNWJbv1,1,1,000000000001,0.66,High,1,90
+1,18,0,120,80,27.78,none,1,Medium confidence,2026-01-25T15:36:56.188000+00:00,no,,,,,,1,1,180,yKHjR0zJRqcSnDbrLJILTaNWJbv1,0,0,000000000001,0.3,Medium,0,90

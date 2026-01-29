@@ -1,0 +1,7 @@
+.doctor-note {
+  background: #f9fafb;
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  white-space: pre-wrap;
+}

@@ -1,0 +1,10 @@
+.patient-header p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.actions-bar {
+  display: flex;
+  gap: 12px;
+  margin: 15px 0;
+}

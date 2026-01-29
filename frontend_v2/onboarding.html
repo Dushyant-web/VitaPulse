@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to VitaPulse</title>
+  <link rel="stylesheet" href="css/onboarding.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="js/config.js"></script>
+</head>
+<body>
+
+<div class="onboarding-container">
+  <h1>Welcome to VitaPulse</h1>
+  <p class="subtitle">
+    Clinical longitudinal cardiovascular risk monitoring
+  </p>
+
+  <ul class="steps">
+    <li>➊ Add patients securely</li>
+    <li>➋ Record vitals & symptoms per visit</li>
+    <li>➌ Track cardiovascular risk trends over time</li>
+    <li>➍ Support clinical decision-making (not diagnosis)</li>
+  </ul>
+
+  <div class="actions">
+    <button id="resetPasswordBtn" class="secondary">
+       Reset Password
+    </button>
+
+    <button id="continueBtn" class="primary">
+      Go to Dashboard →
+    </button>
+  </div>
+</div>
+
+<script src="js/onboarding.js"></script>
+</body>
+</html>

@@ -1,0 +1,501 @@
+/* =========================================
+   VITAPULSE CLINICAL THEME - ADD PATIENT
+   ========================================= */
+
+:root {
+    /* --- PALETTE: Deep Clinical Dark Mode --- */
+    --bg-core: #0a0b10;
+    --bg-surface: #12141a;
+    --bg-surface-glass: rgba(18, 20, 26, 0.85);
+
+    /* Accents */
+    --medical-cyan: #00f0ff;
+    --medical-cyan-dim: rgba(0, 240, 255, 0.1);
+    --medical-green: #0affae;
+    --alert-red: #ff3366;
+    --text-primary: #e0e6ed;
+    --text-secondary: #94a3b8;
+    --border-subtle: #1e293b;
+
+    /* Motion */
+    --ease-tech: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-scan: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-core);
+    color: var(--text-primary);
+    font-family: "Segoe UI", "Roboto", Helvetica, Arial, sans-serif;
+    /* System fonts for reliability */
+    overflow-x: hidden;
+    height: 120vh;
+    display: flex;
+    align-items: center;
+    /* Center form vertically */
+    justify-content: center;
+}
+
+/* =========================================
+   1. BACKGROUND & ATMOSPHERE
+   ========================================= */
+
+/* Base Gradient Depth */
+.clinical-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 120%, #1a2333 0%, var(--bg-core) 60%);
+    z-index: -3;
+}
+
+/* Moving Grid (Radar/Sonar feel) */
+.vitals-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background-image:
+        linear-gradient(var(--border-subtle) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: 0 0;
+    opacity: 0.1;
+    z-index: -2;
+    animation: gridDrift 60s linear infinite;
+    transform: perspective(500px) rotateX(10deg) translateY(-50px) translateZ(-100px);
+}
+
+/* Scanline Sweep (ECG Monitor feel) */
+.scan-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom,
+            transparent 50%,
+            rgba(0, 240, 255, 0.02) 50%,
+            rgba(0, 240, 255, 0.05) 51%,
+            transparent 51%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 999;
+    /* Top overlay */
+    opacity: 0.3;
+}
+
+/* =========================================
+   2. FORM CONTAINER
+   ========================================= */
+
+.form-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    padding: 2.5rem;
+    background: var(--bg-surface-glass);
+    border: 1px solid var(--border-subtle);
+    border-top: 2px solid var(--medical-cyan-dim);
+    /* Top highlight */
+    border-radius: 4px;
+    /* Clinical squareness, slight round */
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+
+    /* Initial State for Animation */
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+    animation: containerEntry 0.8s var(--ease-tech) forwards;
+    backdrop-filter: blur(10px);
+}
+
+/* Decorative "Corners" for the container */
+.form-container::before,
+.form-container::after {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-color: var(--medical-cyan);
+    border-style: solid;
+    transition: all 0.5s ease;
+    pointer-events: none;
+}
+
+.form-container::before {
+    top: -1px;
+    left: -1px;
+    border-width: 2px 0 0 2px;
+}
+
+.form-container::after {
+    bottom: -1px;
+    right: -1px;
+    border-width: 0 2px 2px 0;
+}
+
+.form-container h2 {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--medical-cyan);
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 1rem;
+    text-shadow: 0 0 15px var(--medical-cyan-dim);
+}
+
+/* =========================================
+   3. INPUTS & LABELS
+   ========================================= */
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    position: relative;
+
+    /* Stagger Delay Setup */
+    opacity: 0;
+    transform: translateX(-10px);
+    animation: itemStagger 0.5s var(--ease-tech) forwards;
+}
+
+/* Stagger delays for inputs 1-6 */
+label:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+label:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+label:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+label:nth-child(4) {
+    animation-delay: 0.5s;
+}
+
+label:nth-child(5) {
+    animation-delay: 0.6s;
+}
+
+label:nth-child(6) {
+    animation-delay: 0.7s;
+}
+
+input,
+select {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    padding: 0.8rem 1rem;
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Input Focus - "System Lock" Effect */
+input:focus,
+select:focus {
+    background: rgba(0, 240, 255, 0.03);
+    border-color: var(--medical-cyan);
+    box-shadow:
+        0 0 0 1px var(--medical-cyan) inset,
+        0 0 20px -5px var(--medical-cyan-dim);
+    padding-left: 1.2rem;
+    /* Slight slide to right */
+}
+
+/* Label Active State */
+label:focus-within {
+    color: var(--medical-cyan);
+}
+
+/* =========================================
+   4. ACTIONS & BUTTONS
+   ========================================= */
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    /* Animate in last */
+    opacity: 0;
+    transform: translateY(10px);
+    animation: itemStagger 0.5s var(--ease-tech) forwards 0.9s;
+}
+
+button {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    font-family: inherit;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Primary "Create Patient" Button */
+.btn-primary {
+    background: var(--medical-cyan-dim);
+    border: 1px solid var(--medical-cyan);
+    color: var(--medical-cyan);
+    box-shadow: 0 0 15px -5px var(--medical-cyan-dim);
+}
+
+/* Heartbeat Idle Animation */
+.btn-primary {
+    animation: pulseBeat 4s infinite;
+}
+
+/* Scan Sweep Effect on Hover */
+.btn-primary::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-20deg);
+    transition: none;
+}
+
+.btn-primary:hover::after {
+    animation: scanSweep 0.6s ease-out;
+}
+
+.btn-primary:hover {
+    background: var(--medical-cyan);
+    color: #000;
+    box-shadow: 0 0 30px var(--medical-cyan-dim);
+}
+
+/* Active Press */
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+/* Secondary "Cancel" Button */
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+}
+
+.btn-outline:hover {
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* =========================================
+   5. KEYFRAMES
+   ========================================= */
+
+@keyframes containerEntry {
+    0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes itemStagger {
+    0% {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes gridDrift {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 40px 40px;
+    }
+}
+
+@keyframes pulseBeat {
+
+    0%,
+    90%,
+    100% {
+        box-shadow: 0 0 15px -5px var(--medical-cyan-dim);
+    }
+
+    92% {
+        box-shadow: 0 0 25px -2px var(--medical-cyan-dim);
+    }
+
+    94% {
+        box-shadow: 0 0 15px -5px var(--medical-cyan-dim);
+    }
+
+    96% {
+        box-shadow: 0 0 25px -2px var(--medical-cyan-dim);
+    }
+}
+
+@keyframes scanSweep {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 200%;
+    }
+}
+.ecg-container {
+    position: absolute;
+    top: 7.2%;
+    left: 0;
+    width: 120%;
+    height: 100px;
+    z-index: 1;
+    transform: translateY(-50%);
+    pointer-events: none;
+    opacity: 0.3;
+    overflow: hidden;
+}
+.ecg-svg {
+    width: 105%;
+    height: 92%;
+    display: block;
+    overflow: visible;
+}
+
+.ecg-line {
+    fill: none;
+    stroke: url(#ecg-gradient);
+    stroke-width: 2;
+    position: absolute; z-index: -1;
+    /* Thin, medical grade */
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    /* Glow Effect */
+    filter: url(#glow);
+    filter: drop-shadow(0 0 4px rgba(78, 231, 255, 0.5));
+
+    stroke-dasharray: 1200;
+    stroke-dashoffset: 1200;
+    animation: heartbeat 3s linear infinite;
+}
+
+@keyframes heartbeat {
+    0% {
+        stroke-dashoffset: 1200;
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    80% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+    }
+    90% {
+        opacity: 0;
+    }
+    100% {
+        stroke-dashoffset: 0;
+        opacity: 0;
+    }
+}
+
+/* For Mobiles */
+@media (max-width: 768px) {
+    .ecg-container {
+        height: 60px;
+    }
+
+    .ecg-line {
+        stroke-width: 3;
+    }
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+}
+
+.logo-icon {
+    width: 24px;
+    height: 24px;
+    background: #2563eb;
+    border-radius: 4px;
+    position: relative;
+}
+
+.logo-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: white;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 12h-4l-3 9L9 3l-3 9H2'/%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 12h-4l-3 9L9 3l-3 9H2'/%3E%3C/svg%3E");
+    mask-size: contain;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+    transition:  0.2s ease;
+}
+.headline{
+    margin-top: -440px;
+    margin-left: -480px;
+}

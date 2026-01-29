@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Admin Login | VitaPulse</title>
+    <link rel="stylesheet" href="css/admin-login.css">
+</head>
+
+<body>
+
+    <!-- OPTIONAL: Decorative background layers for ambient clinical atmosphere -->
+    <div class="clinical-bg-overlay"></div>
+    <div class="clinical-grid"></div>
+    <div class="scanner-line"></div>
+
+
+    <h2>Admin Login</h2>
+
+    <input id="email" type="email" placeholder="Admin Email" /><br><br>
+    <input id="password" type="password" placeholder="Password" /><br><br>
+
+    <button id="loginBtn">Login</button>
+
+    <p id="error" style="color:red;"></p>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <!-- Firebase Config -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBKBYhQVzRMb9qOXIewuPDsXroP7Zyj_VM",
+            authDomain: "vitapulse-9606a.firebaseapp.com",
+            projectId: "vitapulse-9606a",
+        };
+
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <script src="js/admin-login.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Patient Dashboard</title>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="js/firebase-init.js"></script>
+
+  <link rel="stylesheet" href="css/patient.css" />
+</head>
+<body>
+<div class="vp-bg">
+  <div class="vp-grid"></div>
+  <div class="vp-scan"></div>
+  <div class="vp-pulse"></div>
+</div>
+
+<header class="top-bar">
+  <button id="backBtn">← Back</button>
+  <h1 id="patientName">Patient</h1>
+  <button id="newRecordBtn">New Record</button>
+</header>
+
+<section class="card glass">
+  <p><b>ID:</b> <span id="patientId"></span></p>
+  <p><b>Age:</b> <span id="patientAge"></span></p>
+  <p><b>Gender:</b> <span id="patientGender"></span></p>
+  <p><b>Mobile:</b> <span id="patientMobile"></span></p>
+  <p><b>Email:</b> <span id="patientEmail"></span></p>
+  <p><b>Guardian:</b> <span id="guardianEmail"></span></p>
+  <button id="editPatientBtn">Edit</button>
+</section>
+
+<section class="card glass">
+  <h2>Health Summary</h2>
+
+  <div class="summary-grid">
+    <div class="metric"><span>Score - </span><b><span id="healthScore"></span>/100</b></div>
+    <div class="metric"><span>Risk - </span><b><span id="currentRisk"></span></b></div>
+    <div class="metric"><span>Probability - </span><b><span id="latestProbability"></span>%</b></div>
+    <div class="metric"><span>Trend - </span><b><span id="riskTrend"></span></b></div>
+    <div class="metric"><span>Visits - </span><b><span id="totalVisits"></span></b></div>
+  </div>
+
+  <div class="cardiac-box">
+    <label>
+      <input type="checkbox" id="cardiacArrestCheckbox" />
+      Cardiac Arrest Confirmed
+    </label>
+    <p class="hint">*Mark only if clinically confirmed.</p>
+  </div>
+  <button id="trendsBtn">📈 Trends</button>
+</section>
+
+<section class="actions glass">
+  <select id="sortOrder">
+    <option value="desc">Latest First</option>
+    <option value="asc">Oldest First</option>
+  </select>
+
+  <select id="riskFilter">
+    <option value="ALL">All Risks</option>
+    <option value="High">High</option>
+    <option value="Medium">Medium</option>
+    <option value="Low">Low</option>
+  </select>
+
+  <button id="downloadPdfBtn">📄 Download PDF</button>
+  <button id="sendEmailBtn">📧 Send Report</button>
+</section>
+
+<section class="card glass">
+  <h2>Visit Timeline</h2>
+  <hr class="timeline-divider"/>
+  <div id="timeline"></div>
+</section>
+
+<script type="module" src="js/patient.js"></script>
+</body>
+</html>

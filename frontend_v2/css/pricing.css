@@ -1,0 +1,258 @@
+* {
+    box-sizing: border-box;
+    font-family: Inter, system-ui, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #0b0e14;
+    color: #ffffff;
+}
+
+/* Header */
+.pricing-header {
+    text-align: center;
+    padding: 60px 20px 30px;
+}
+
+.pricing-header h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.pricing-header p {
+    color: #9aa4b2;
+}
+
+/* Pricing Cards */
+.pricing-container {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 40px 20px;
+}
+
+.pricing-card {
+    background: #141824;
+    border-radius: 12px;
+    padding: 32px;
+    width: 300px;
+    border: 1px solid #22283a;
+}
+
+.pricing-card h2 {
+    margin-top: 0;
+}
+
+.price {
+    font-size: 36px;
+    margin: 10px 0;
+}
+
+.price span {
+    font-size: 14px;
+    color: #9aa4b2;
+}
+
+.subtitle {
+    color: #9aa4b2;
+    margin-bottom: 20px;
+}
+
+.pricing-card ul {
+    padding-left: 18px;
+}
+
+.pricing-card li {
+    margin-bottom: 10px;
+}
+
+.note {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #9aa4b2;
+}
+
+/* Featured */
+.featured {
+    border: 2px solid #3b82f6;
+    transform: scale(1.03);
+}
+
+/* Actions */
+.pricing-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 60px;
+}
+
+.btn {
+    padding: 12px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid #3b82f6;
+    color: #3b82f6;
+}
+
+/* Footer */
+.pricing-footer {
+    text-align: center;
+    font-size: 13px;
+    color: #9aa4b2;
+    padding-bottom: 30px;
+}
+
+/* =========================
+   PREMIUM ANIMATIONS ADD-ON
+   Paste at END of pricing.css
+   ========================= */
+
+/* 1) Page load: header + cards entrance */
+.pricing-header h1,
+.pricing-header p{
+  opacity: 0;
+  transform: translateY(10px);
+  animation: vpFadeUp .8s cubic-bezier(.22,1,.36,1) forwards;
+}
+.pricing-header p{ animation-delay: .08s; }
+
+.pricing-card{
+  opacity: 0;
+  transform: translateY(16px) scale(.99);
+  animation: vpCardIn .9s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+/* stagger */
+.pricing-card:nth-child(1){ animation-delay: .10s; }
+.pricing-card:nth-child(2){ animation-delay: .18s; }
+.pricing-card:nth-child(3){ animation-delay: .26s; }
+
+@keyframes vpFadeUp{
+  to{ opacity: 1; transform: translateY(0); }
+}
+@keyframes vpCardIn{
+  to{ opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* 2) Subtle hover: lift + soft glow */
+.pricing-card{
+  transition: transform .35s cubic-bezier(.22,1,.36,1),
+              box-shadow .35s cubic-bezier(.22,1,.36,1),
+              border-color .35s cubic-bezier(.22,1,.36,1);
+  will-change: transform;
+}
+.pricing-card:hover{
+  transform: translateY(-7px);
+  box-shadow: 0 18px 60px rgba(0,0,0,.45);
+  border-color: rgba(255,255,255,.18);
+}
+
+/* 3) Premium shine sweep on hover (very light) */
+.pricing-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(120deg,
+    transparent 0%,
+    rgba(255,255,255,.10) 45%,
+    transparent 70%);
+  transform: translateX(-120%);
+  opacity: 0;
+  pointer-events:none;
+}
+.pricing-card:hover::after{
+  opacity: .8;
+  transform: translateX(120%);
+  transition: transform .9s cubic-bezier(.22,1,.36,1), opacity .2s ease;
+}
+
+/* 4) Featured card: breathing border glow (not flashy) */
+.pricing-card.featured{
+  position: relative;
+  overflow: hidden;
+}
+.pricing-card.featured::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius: inherit;
+  background: radial-gradient(500px 220px at 30% 0%,
+      rgba(59,130,246,.22), transparent 60%),
+    radial-gradient(420px 220px at 80% 10%,
+      rgba(34,211,238,.14), transparent 60%);
+  opacity: .9;
+  filter: blur(10px);
+  animation: vpPulse 3.8s ease-in-out infinite;
+  pointer-events:none;
+  z-index: 0;
+}
+/* keep content above glow */
+.pricing-card > *{ position: relative; z-index: 1; }
+
+@keyframes vpPulse{
+  0%,100%{ transform: scale(1); opacity:.75; }
+  50%{ transform: scale(1.03); opacity:1; }
+}
+
+/* 5) List items: gentle reveal on load */
+.pricing-card ul li{
+  opacity: 0;
+  transform: translateY(6px);
+  animation: vpListIn .6s cubic-bezier(.22,1,.36,1) forwards;
+}
+.pricing-card ul li:nth-child(1){ animation-delay: .30s; }
+.pricing-card ul li:nth-child(2){ animation-delay: .36s; }
+.pricing-card ul li:nth-child(3){ animation-delay: .42s; }
+.pricing-card ul li:nth-child(4){ animation-delay: .48s; }
+.pricing-card ul li:nth-child(5){ animation-delay: .54s; }
+.pricing-card ul li:nth-child(6){ animation-delay: .60s; }
+
+@keyframes vpListIn{
+  to{ opacity: 1; transform: translateY(0); }
+}
+
+/* 6) Buttons: subtle shimmer on hover */
+.btn{
+  position: relative;
+  overflow: hidden;
+}
+.btn::after{
+  content:"";
+  position:absolute;
+  top:-30%;
+  left:-60%;
+  width: 60%;
+  height: 160%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.16), transparent);
+  transform: rotate(18deg);
+  opacity: 0;
+}
+.btn:hover::after{
+  opacity: 1;
+  left: 120%;
+  transition: left .9s cubic-bezier(.22,1,.36,1), opacity .2s ease;
+}
+
+/* 7) Accessibility: reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .pricing-header h1, .pricing-header p,
+  .pricing-card, .pricing-card ul li{
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .pricing-card.featured::before{ animation:none !important; }
+  .pricing-card::after, .btn::after{ display:none !important; }
+}

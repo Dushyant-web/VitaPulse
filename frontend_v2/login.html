@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hospital Login</title>
+  <link rel="stylesheet" href="css/login.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js" defer></script>
+</head>
+<body>
+
+  <div class="hero-bg">
+    <div class="ecg-line-container">
+      <svg class="ecg-svg" viewBox="0 0 1200 200" preserveAspectRatio="none">
+        <path class="ecg-path"
+        d="M0,100 L100,100 L110,90 L120,110 L130,100 L200,100 L210,40 L230,160 L240,100 L350,100 L360,90 L370,110 L380,100 L600,100 L610,40 L630,160 L640,100 L800,100 L810,90 L820,110 L830,100 L1200,100" />
+      </svg>
+    </div>
+  </div>
+
+  <div class="auth-container">
+    <h1>Hospital Login</h1>
+
+    <form id="loginForm">
+      <input
+        type="email"
+        id="loginEmail"
+        placeholder="Hospital Email"
+        required
+      />
+
+      <input
+        type="password"
+        id="loginPassword"
+        placeholder="Password"
+        required
+      />
+
+      <button type="submit">Login</button>
+    </form>
+
+    <p class="error" id="loginError"></p>
+
+    <p class="switch">
+      Do not have an account?
+      <a href="signup.html">Create account</a>
+    </p>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitaPulse | Clinical Cardiovascular Risk Monitoring</title>
+    <meta name="description"
+        content="Longitudinal cardiovascular risk monitoring platform for hospitals and clinicians. Trustworthy, data-driven, and designed for clinical decision support.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <div class="logo-icon"></div>
+                <span>VitaPulse</span>
+            </a>
+            <nav class="nav">
+                <a href="#features">Features</a>
+                <a href="#technology">Technology</a>
+                <a href="#trust">Trust</a>
+            </nav>
+            <div class="header-actions">
+                <a href="#" class="btn btn-ghost">Login</a>
+                <a href="#" class="btn btn-primary">Sign up</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-bg">
+                <div class="ecg-line-container">
+                    <svg class="ecg-svg" viewBox="0 0 1200 200" preserveAspectRatio="none">
+                        <path class="ecg-path"
+                            d="M0,100 L100,100 L110,90 L120,110 L130,100 L200,100 L210,40 L230,160 L240,100 L350,100 L360,90 L370,110 L380,100 L600,100 L610,40 L630,160 L640,100 L800,100 L810,90 L820,110 L830,100 L1200,100" />
+                    </svg>
+                </div>
+            </div>
+            <div class="container hero-content">
+                <h1 class="hero-title fade-in-up">Track Cardiovascular Risk.<br>Over Time.<br><span
+                        class="text-gradient">With Confidence.</span></h1>
+                <p class="hero-subtitle fade-in-up delay-1">Longitudinal monitoring for clinical decision support. Not a
+                    diagnosis—a timeline of truth.</p>
+                <div class="hero-actions fade-in-up delay-2">
+                    <a href="#" class="btn btn-primary btn-lg">Login to Dashboard</a>
+                    <a href="#" class="btn btn-secondary btn-lg">Sign Up</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Features Section -->
+        <section id="features" class="features section-padding">
+            <div class="container">
+                <div class="section-header fade-in">
+                    <h2 class="section-title">Clinical-Grade Precision</h2>
+                    <p class="section-desc">Designed for the rigorous demands of modern cardiology departments.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card fade-in-up delay-1">
+                        <div class="card-icon">📈</div>
+                        <h3>Risk Trend Analysis</h3>
+                        <p> Visualize improving, stable, or worsening risk trajectories across patient visits with
+                            granular precision.</p>
+                    </div>
+                    <div class="feature-card fade-in-up delay-2">
+                        <div class="card-icon">🫀</div>
+                        <h3>Longitudinal ECG</h3>
+                        <p>Track doctor-entered ECG parameters over years, not just moments, to identify subtle
+                            progression.</p>
+                    </div>
+                    <div class="feature-card fade-in-up delay-3">
+                        <div class="card-icon">🧠</div>
+                        <h3>Explainable AI</h3>
+                        <p>Transparent risk scoring. See exactly which factors contributed to the prediction—no black
+                            boxes.</p>
+                    </div>
+                    <div class="feature-card fade-in-up delay-4">
+                        <div class="card-icon">🔐</div>
+                        <h3>Hospital-Grade Security</h3>
+                        <p>role-based access control for clinical environments.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Visual Section -->
+        <section class="visuals section-padding">
+            <div class="container">
+                <div class="visual-container fade-in">
+                    <div class="visual-header">
+                        <h3>Patient Risk Trajectory</h3>
+                        <div class="visual-legend">
+                            <span class="legend-item"><span class="dot risk-high"></span>High Risk</span>
+                            <span class="legend-item"><span class="dot risk-stable"></span>Stable</span>
+                        </div>
+                    </div>
+                    <div class="graph-wrapper">
+                        <!-- Simplified CSS/SVG Graph representation -->
+                        <svg class="graph-svg" viewBox="0 0 800 300">
+                            <!-- Grid lines -->
+                            <line x1="0" y1="250" x2="800" y2="250" class="grid-line" />
+                            <line x1="0" y1="150" x2="800" y2="150" class="grid-line" />
+                            <line x1="0" y1="50" x2="800" y2="50" class="grid-line" />
+
+                            <!-- Data Line -->
+                            <path class="data-line" d="M50,220 C150,210 250,180 350,140 S550,100 750,60" fill="none" />
+
+                            <!-- Data Points -->
+                            <circle cx="50" cy="220" r="6" class="data-point" />
+                            <circle cx="200" cy="195" r="6" class="data-point" />
+                            <circle cx="350" cy="140" r="6" class="data-point" />
+                            <circle cx="550" cy="90" r="6" class="data-point" />
+                            <circle cx="750" cy="60" r="6" class="data-point" />
+
+                            <!-- Floating Tooltip (Static for demo) -->
+                            <g class="tooltip-group" transform="translate(550, 50)">
+                                <rect width="120" height="60" rx="4" class="tooltip-bg" />
+                                <text x="60" y="25" text-anchor="middle" class="tooltip-text phase">Visit #4</text>
+                                <text x="60" y="45" text-anchor="middle" class="tooltip-text value">Risk:
+                                    Elevated</text>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why VitaPulse Section -->
+        <section id="technology" class="why-us section-padding">
+            <div class="container grid-2-col">
+                <div class="content-side fade-in-left">
+                    <h2 class="section-title">Why Longitudinal Matters</h2>
+                    <p class="mb-4">One-time predictions are dangerous snapshots. True clinical insight comes from
+                        observing the vector of change.</p>
+                    <ul class="check-list">
+                        <li>Detect rapid deterioration before critical events.</li>
+                        <li>Monitor response to therapeutic interventions.</li>
+                        <li>Differentiate transient spikes from chronic progression.</li>
+                    </ul>
+
+                </div>
+                <div class="visual-side fade-in-right">
+                    <div class="stat-card">
+                        <h4>Prediction Accuracy</h4>
+                        <div class="big-stat">80%</div>
+                        <p class="stat-desc">vs 65% for single-point measurements</p>
+                    </div>
+                    <div class="stat-card mt-4">
+                        <h4>Early Detection</h4>
+                        <div class="big-stat"></div>
+                        <p class="stat-desc">earlier intervention window</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trust Section -->
+        <section id="trust" class="trust section-padding text-center">
+            <div class="container">
+                <h2 class="section-title fade-in">Built for Hospitals. Trusted by Clinicians.</h2>
+                <div class="trust-grid fade-in-up delay-1">
+                    <div class="trust-item">
+                        <div class="trust-icon">🛡️</div>
+                        <h4>SOC2 Type II</h4>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-icon">🔒</div>
+                        <h4>End-to-End Encrypted</h4>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-icon">🏥</div>
+                        <h4>Hospital only access</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta section-padding">
+            <div class="container">
+                <div class="cta-box fade-in">
+                    <h2>Ready to upgrade your department's risk monitoring?</h2>
+                    <p>Join the network of forward-thinking cardiology units.</p>
+                    <div class="cta-buttons">
+                        <a href="#" class="btn btn-primary btn-lg">Request Hospital Access</a>
+
+                    </div>
+                    <p class="disclaimer">Professional use only. VitaPulse provides decision support, not automated
+                        diagonsis.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-col">
+                <div class="logo">
+                    <span>VitaPulse</span>
+                </div>
+                <p>Advanced longitudinal cardiovascular monitoring.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <a href="#">Features</a>
+                <a href="#">Security</a>
+                <a href="#">API</a>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="#">About</a>
+                <a href="#">Contact us</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+        </div>
+        <div class="container text-center copyright">
+            &copy; 2026 VitaPulse Health Systems. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            const animatedElements = document.querySelectorAll('.fade-in, .fade-in-up, .fade-in-left, .fade-in-right');
+            animatedElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+
+</html>

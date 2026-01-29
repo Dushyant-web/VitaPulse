@@ -1,0 +1,268 @@
+/* 
+ * VitaPulse Onboarding Styles
+ * Vibe: clinical, calm, premium, trustworthy
+ */
+
+:root {
+    --bg-deep: #0a0c10;
+    --accent-primary: #00d2ff;
+    --accent-soft: rgba(0, 210, 255, 0.15);
+    --text-main: #e0e6ed;
+    --text-dim: #94a3b8;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-deep);
+    color: var(--text-main);
+    font-family: var(--font-family);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* 
+ * OPTIONAL: Background ambient effects
+ * If the user chooses to add a wrapper, these will apply.
+ * Even without it, we apply a subtle radial gradient to the body.
+ */
+body::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, rgba(0, 210, 255, 0.05) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Onboarding Capsule */
+.onboarding-container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 48px;
+    max-width: 560px;
+    width: 90%;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    animation: containerAppear 1.2s var(--transition-smooth) forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+@keyframes containerAppear {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    text-align: center;
+    color: #ffffff;
+    animation: fadeUp 0.8s var(--transition-smooth) 0.2s forwards;
+    opacity: 0;
+}
+
+.subtitle {
+    font-size: 1.125rem;
+    color: var(--text-dim);
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 400;
+    animation: fadeUp 0.8s var(--transition-smooth) 0.3s forwards;
+    opacity: 0;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Steps List - Clinical Timeline Aesthetic */
+.steps {
+    list-style: none;
+    margin-bottom: 48px;
+    position: relative;
+    padding-left: 32px;
+}
+
+/* Connecting Timeline Line */
+.steps::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent-primary) 0%, var(--glass-border) 100%);
+    opacity: 0.3;
+}
+
+.steps li {
+    position: relative;
+    margin-bottom: 24px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-main);
+    opacity: 0;
+    transform: translateX(-10px);
+    animation: stepIn 0.8s var(--transition-smooth) forwards;
+}
+
+.steps li:nth-child(1) {
+    animation-delay: 0.5s;
+}
+
+.steps li:nth-child(2) {
+    animation-delay: 0.7s;
+}
+
+.steps li:nth-child(3) {
+    animation-delay: 0.9s;
+}
+
+.steps li:nth-child(4) {
+    animation-delay: 1.1s;
+    margin-bottom: 0;
+}
+
+@keyframes stepIn {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Custom Marker to replace unicode icons */
+.steps li::before {
+    content: '';
+    position: absolute;
+    left: -27px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    background: var(--bg-deep);
+    border: 2px solid var(--accent-primary);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent-soft);
+    z-index: 1;
+}
+
+/* Hide the original unicode numbers if the user wants a cleaner look, 
+   but since we can't edit HTML, we'll style them into the design */
+/* Actually, let's keep them but make them look like professional markers */
+
+.steps li {
+    /* Hide standard bullets */
+    list-style: none;
+}
+
+/* Actions Area */
+.actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    animation: fadeUp 0.8s var(--transition-smooth) 1.3s forwards;
+    opacity: 0;
+}
+
+button {
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 12px;
+    transition: all 0.3s var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid transparent;
+}
+
+.primary {
+    background-color: var(--accent-primary);
+    color: #000000;
+    box-shadow: 0 4px 15px rgba(0, 210, 255, 0.2);
+}
+
+.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 210, 255, 0.3);
+    filter: brightness(1.1);
+}
+
+.primary:active {
+    transform: translateY(0);
+}
+
+.secondary {
+    background-color: transparent;
+    color: var(--text-dim);
+    border-color: var(--glass-border);
+}
+
+.secondary:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+    border-color: var(--text-dim);
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Tablet / Mobile tweaks */
+@media (max-width: 640px) {
+    .onboarding-container {
+        padding: 32px;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    .actions {
+        flex-direction: column-reverse;
+    }
+
+    button {
+        width: 100%;
+        justify-content: center;
+    }
+}

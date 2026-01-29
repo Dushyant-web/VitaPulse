@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Patient Trends</title>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="js/firebase-init.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="css/trends.css" />
+</head>
+<body>
+
+  <div class="page">
+    <header class="topbar">
+      <button class="back-btn" onclick="history.back()">← Back</button>
+      <div class="title">
+        <h1>Patient Trends</h1>
+        <p>Longitudinal view of risk + vitals</p>
+      </div>
+    </header>
+
+    <section class="card hero">
+      <h2>📈 Health Trends</h2>
+      <p id="trendSummary"></p>
+
+      <div class="toggles">
+        <label class="chip">
+          <input type="checkbox" id="toggleRisk" checked />
+          <span>Risk %</span>
+        </label>
+
+        <label class="chip">
+          <input type="checkbox" id="toggleECG" checked />
+          <span>ECG Impact</span>
+        </label>
+
+        <label class="chip">
+          <input type="checkbox" id="toggleBP" checked />
+          <span>Blood Pressure</span>
+        </label>
+
+        <label class="chip">
+          <input type="checkbox" id="toggleBMI" checked />
+          <span>BMI</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- DUPLICATE KEPT (as requested) -->
+    <section class="card subtle">
+      <h2>Graphs</h2>
+      <p id="trendSummary"></p>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <div class="card-head">
+          <h3>Risk Probability (%)</h3>
+          <span class="pill">Prediction</span>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="riskChart"></canvas>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h3>Blood Pressure</h3>
+          <span class="pill">Vitals</span>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="bpChart"></canvas>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h3>BMI Trend</h3>
+          <span class="pill">Lifestyle</span>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="bmiChart"></canvas>
+        </div>
+      </section>
+    </div>
+  </div>
+
+<script type="module" src="js/trends.js"></script>
+</body>
+</html>
