@@ -6,17 +6,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Request Hospital Access | VitaPulse</title>
-    <!-- [Fonts] -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <!-- [Styles] -->
     <link rel="stylesheet" href="css/request-access.css">
 </head>
 
 <body class="request-access-page">
 
-    <!-- [OPTIONAL] Background Decor / Ambient Animation Layers -->
     <div class="bg-gradient-radial"></div>
     <div class="bg-noise"></div>
     <div class="bg-glow"></div>
@@ -34,7 +31,6 @@
 
         <input type="text" id="license_number" placeholder="Medical License / Registration Number" required />
 
-        <!-- 🏥 Hospital Type -->
         <select id="hospital_type" required>
             <option value="">Select Hospital Type</option>
             <option value="Government">Government</option>
@@ -43,7 +39,6 @@
             <option value="Research Institute">Research Institute</option>
         </select>
 
-        <!-- 🫀 Intended Use -->
         <select id="intended_use" required>
             <option value="">Intended Use</option>
             <option value="Cardiology OPD">Cardiology OPD</option>
@@ -52,7 +47,6 @@
             <option value="Clinical Research">Clinical Research</option>
         </select>
 
-        <!-- 👥 Patient Volume -->
         <select id="patient_volume">
             <option value="">Average Monthly Patients (Optional)</option>
             <option value="<100">Below 100</option>
@@ -61,7 +55,6 @@
             <option value="1000+">1000+</option>
         </select>
 
-        <!-- ✍️ Justification -->
         <textarea id="justification"
             placeholder="Why does your hospital need VitaPulse? (Clinical need, challenges, outcomes)" rows="5"
             required></textarea>

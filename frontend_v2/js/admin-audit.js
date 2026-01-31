@@ -7,9 +7,7 @@ if (!token) {
   window.location.href = "admin-login.html";
 }
 
-// ===============================
-// LOAD AUDIT LOGS
-// ===============================
+
 async function loadAuditLogs() {
   try {
     const res = await fetch(
@@ -32,9 +30,7 @@ async function loadAuditLogs() {
   }
 }
 
-// ===============================
-// RENDER TABLE
-// ===============================
+
 function renderLogs(logs) {
   tableBody.innerHTML = "";
 
@@ -63,9 +59,6 @@ function renderLogs(logs) {
   });
 }
 
-// ===============================
-// FORMAT FIRESTORE TIMESTAMP
-// ===============================
 function formatDate(ts) {
   if (!ts || !ts._seconds) return "-";
   const date = new Date(ts._seconds * 1000);

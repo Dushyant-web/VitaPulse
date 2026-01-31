@@ -1,14 +1,12 @@
-/* =========================================
-   VITAPULSE CLINICAL THEME - ADD PATIENT
-   ========================================= */
+
 
 :root {
-    /* --- PALETTE: Deep Clinical Dark Mode --- */
+   
     --bg-core: #0a0b10;
     --bg-surface: #12141a;
     --bg-surface-glass: rgba(18, 20, 26, 0.85);
 
-    /* Accents */
+    
     --medical-cyan: #00f0ff;
     --medical-cyan-dim: rgba(0, 240, 255, 0.1);
     --medical-green: #0affae;
@@ -32,20 +30,17 @@ body {
     background-color: var(--bg-core);
     color: var(--text-primary);
     font-family: "Segoe UI", "Roboto", Helvetica, Arial, sans-serif;
-    /* System fonts for reliability */
+   
     overflow-x: hidden;
     height: 120vh;
     display: flex;
     align-items: center;
-    /* Center form vertically */
+    
     justify-content: center;
 }
 
-/* =========================================
-   1. BACKGROUND & ATMOSPHERE
-   ========================================= */
 
-/* Base Gradient Depth */
+
 .clinical-bg {
     position: fixed;
     top: 0;
@@ -56,7 +51,7 @@ body {
     z-index: -3;
 }
 
-/* Moving Grid (Radar/Sonar feel) */
+
 .vitals-grid {
     position: fixed;
     top: 0;
@@ -89,13 +84,10 @@ body {
     background-size: 100% 4px;
     pointer-events: none;
     z-index: 999;
-    /* Top overlay */
+   
     opacity: 0.3;
 }
 
-/* =========================================
-   2. FORM CONTAINER
-   ========================================= */
 
 .form-container {
     position: relative;
@@ -156,9 +148,7 @@ body {
     text-shadow: 0 0 15px var(--medical-cyan-dim);
 }
 
-/* =========================================
-   3. INPUTS & LABELS
-   ========================================= */
+
 
 form {
     display: flex;
@@ -221,7 +211,7 @@ select {
     transition: all 0.3s ease;
 }
 
-/* Input Focus - "System Lock" Effect */
+
 input:focus,
 select:focus {
     background: rgba(0, 240, 255, 0.03);
@@ -230,7 +220,7 @@ select:focus {
         0 0 0 1px var(--medical-cyan) inset,
         0 0 20px -5px var(--medical-cyan-dim);
     padding-left: 1.2rem;
-    /* Slight slide to right */
+    
 }
 
 /* Label Active State */
@@ -238,9 +228,6 @@ label:focus-within {
     color: var(--medical-cyan);
 }
 
-/* =========================================
-   4. ACTIONS & BUTTONS
-   ========================================= */
 
 .form-actions {
     display: flex;
@@ -321,9 +308,7 @@ button {
     background: rgba(255, 255, 255, 0.05);
 }
 
-/* =========================================
-   5. KEYFRAMES
-   ========================================= */
+
 
 @keyframes containerEntry {
     0% {
@@ -447,7 +432,7 @@ button {
     }
 }
 
-/* For Mobiles */
+
 @media (max-width: 768px) {
     .ecg-container {
         height: 60px;

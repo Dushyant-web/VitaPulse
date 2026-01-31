@@ -1,22 +1,19 @@
 // js/index.js
 
-// 🔐 Firebase auth state check
+//  Firebase auth state check
 document.addEventListener("DOMContentLoaded", () => {
   if (!window.firebase || !firebase.auth) return;
 
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      // ✅ Already logged in hospital → redirect to dashboard
+      //  Already logged in hospital → redirect to dashboard
       window.location.href = "dashboard.html";
     }
     // else → stay on landing page
   });
 });
 
-/* ===============================
-   🧭 CTA SAFETY (OPTIONAL)
-   Ensures buttons always route correctly
-=============================== */
+
 
 document.addEventListener("click", (e) => {
   const target = e.target.closest("a");

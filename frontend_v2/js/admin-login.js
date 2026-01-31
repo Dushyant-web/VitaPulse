@@ -8,18 +8,18 @@ loginBtn.onclick = async () => {
   errorEl.innerText = "";
 
   try {
-    // 1️⃣ Firebase login
+    // Firebase login
     const userCred = await firebase
       .auth()
       .signInWithEmailAndPassword(email, password);
 
-    // 2️⃣ Get ID token (VERY IMPORTANT)
+    // Get ID token (VERY IMPORTANT)
     const token = await userCred.user.getIdToken(true);
 
-    // 3️⃣ Store admin token
+    // Store admin token
     localStorage.setItem("adminToken", token);
 
-    // 4️⃣ Redirect
+    // Redirect
     window.location.href = "admin-requests.html";
 
   } catch (err) {

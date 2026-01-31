@@ -1,22 +1,16 @@
 import { apiFetch } from "./api.js";
 
-/* ===============================
-   🔐 AUTH GUARD
-=============================== */
+
 firebase.auth().onAuthStateChanged(user => {
   if (!user) {
     window.location.href = "login.html";
   }
 });
 
-/* ===============================
-   🌍 DUPLICATE STATE
-=============================== */
+
 let duplicateMatches = [];
 
-/* ===============================
-   🧠 SOFT DUPLICATE CHECK
-=============================== */
+
 async function checkDuplicateHint() {
   const nameEl = document.getElementById("name");
   const ageEl = document.getElementById("age");
@@ -60,21 +54,17 @@ async function checkDuplicateHint() {
   }
 }
 
-/* ===============================
-   🔔 ATTACH INPUT LISTENERS
-=============================== */
+
 ["name", "age"].forEach(id => {
   const el = document.getElementById(id);
   if (el) el.addEventListener("input", checkDuplicateHint);
 });
 
-/* ===============================
-   ➕ CREATE PATIENT
-=============================== */
+
 document.getElementById("patientForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  // ⚠️ STRONG WARNING ON SAVE
+  // STRONG WARNING ON SAVE
   if (duplicateMatches.length > 0) {
     const ok = confirm(
       `⚠️ ${duplicateMatches.length} similar patient(s) found.\n\n` +
@@ -93,7 +83,7 @@ document.getElementById("patientForm").addEventListener("submit", async (e) => {
   };
 
   try {
-    // ✅ CREATE ONCE
+    //  CREATE ONCE
     const res = await apiFetch("/patients", {
       method: "POST",
       body: JSON.stringify(payload)
@@ -101,7 +91,7 @@ document.getElementById("patientForm").addEventListener("submit", async (e) => {
 
     alert("Patient created successfully");
 
-    // ✅ REDIRECT TO PATIENT DASHBOARD
+    //  REDIRECT TO PATIENT DASHBOARD
     window.location.href = `patient.html?patient_id=${res.patient_id}`;
 
   } catch (err) {

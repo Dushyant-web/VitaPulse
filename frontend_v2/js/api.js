@@ -1,17 +1,13 @@
 export const BASE_URL = "http://127.0.0.1:5000";
 
-// ===============================
-// 🔑 GET FIREBASE ID TOKEN
-// ===============================
+//Firebase Token
 async function getIdToken() {
   const user = firebase.auth().currentUser;
   if (!user) return null;
   return await user.getIdToken();
 }
 
-// ===============================
-// 📡 AUTH FETCH WRAPPER
-// ===============================
+//Fetch Wrapper
 export async function apiFetch(endpoint, options = {}) {
   const token = await getIdToken();
   if (!token) throw new Error("Not authenticated");
@@ -33,30 +29,22 @@ export async function apiFetch(endpoint, options = {}) {
   return res.json();
 }
 
-// ===============================
-// 🏥 HOSPITAL PROFILE
-// ===============================
+//Hospital Profile
 export function fetchHospitalProfile() {
   return apiFetch("/auth/me");
 }
 
-// ===============================
-// 👥 FETCH PATIENTS
-// ===============================
+//Fetch Patients
 export function fetchPatients() {
   return apiFetch("/patients");
 }
 
-// ===============================
-// 🔍 SEARCH PATIENT
-// ===============================
+//Search patient
 export function searchPatient(query) {
   return apiFetch(`/patients/search?q=${encodeURIComponent(query)}`);
 }
 
-// ===============================
-// 🚪 LOGOUT
-// ===============================
+//Logout
 export async function logout() {
   await firebase.auth().signOut();
   window.location.href = "login.html";

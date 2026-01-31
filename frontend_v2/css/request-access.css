@@ -1,7 +1,3 @@
-/* 
-   VitaPulse - Request Hospital Access Styling
-   Theme: Clinical, Institutional, Premium Dark
-*/
 
 :root {
     /* Color Palette - Clinical & Secure */
@@ -30,7 +26,6 @@
     --glow-subtle: 0 0 20px rgba(79, 209, 197, 0.1);
 }
 
-/* 1. Base Reset & Typography */
 * {
     margin: 0;
     padding: 0;
@@ -51,7 +46,6 @@ body.request-access-page {
     padding: 2rem 1rem;
 }
 
-/* 2. Background Layers (OPTIONAL Ambient Animation) */
 .bg-gradient-radial {
     position: fixed;
     top: 0;
@@ -103,7 +97,6 @@ body.request-access-page {
     }
 }
 
-/* 3. Header Styling */
 h1 {
     font-size: 1.75rem;
     font-weight: 500;
@@ -115,7 +108,6 @@ h1 {
     animation: fade-up 0.8s var(--ease-clinical) forwards;
 }
 
-/* 4. Form Container */
 #hospitalRequestForm {
     width: 100%;
     max-width: 580px;
@@ -145,7 +137,6 @@ h1 {
     opacity: 0.3;
 }
 
-/* 5. Input & Field Styling */
 input,
 select,
 textarea {
@@ -181,7 +172,6 @@ textarea:focus {
     box-shadow: 0 0 0 3px rgba(79, 209, 197, 0.1);
 }
 
-/* Select custom arrow */
 select {
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
@@ -196,7 +186,6 @@ textarea {
     min-height: 120px;
 }
 
-/* 6. Buttons */
 button[type="submit"] {
     background-color: var(--accent-primary);
     color: #000;
@@ -235,7 +224,6 @@ button[type="submit"]:active {
     color: var(--text-primary);
 }
 
-/* 7. Status & Feedback */
 #statusMessage {
     margin-top: 1.5rem;
     font-size: 0.9rem;
@@ -244,7 +232,6 @@ button[type="submit"]:active {
     min-height: 1.5rem;
 }
 
-/* 8. Animations */
 @keyframes fade-up {
     from {
         opacity: 0;
@@ -257,7 +244,6 @@ button[type="submit"]:active {
     }
 }
 
-/* 9. Responsive adjustments */
 @media (max-width: 640px) {
     #hospitalRequestForm {
         padding: 2rem 1.5rem;
@@ -273,7 +259,6 @@ button[type="submit"]:active {
     }
 }
 
-/* 10. Accessibility */
 :focus-visible {
     outline: 2px solid var(--accent-primary);
     outline-offset: 2px;

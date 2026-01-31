@@ -14,9 +14,7 @@ let chartRange = "week"; // "week" | "month"
 let fullDailyCounts = [];
 let searchResults = null;
 
-/* ===============================
-   🔐 AUTH GUARD
-=============================== */
+
 firebase.auth().onAuthStateChanged(async (user) => {
   if (!user) {
     window.location.href = "login.html";
@@ -39,28 +37,23 @@ firebase.auth().onAuthStateChanged(async (user) => {
   }
 });
 
-/* ===============================
-   👤 LOAD RECENT PATIENTS
-=============================== */
+
 async function loadRecentPatients() {
   const listEl = document.getElementById("patientsList");
   listEl.innerHTML = "<li>Loading patients...</li>";
 
   const res = await fetchPatients();
 
-  // 🔴 RAW DATA — may include deleted
+  // RAW DATA — may include deleted
   masterPatients = res.patients || [];
 
-  // ✅ DEFAULT VIEW = NON-DELETED ONLY
+  // DEFAULT VIEW = NON-DELETED ONLY
   activeFilter = null;
   allPatients = masterPatients.filter(p => !p.is_deleted);
 
   applyActiveFilter();
 }
 
-/* ===============================
-   🔎 FILTER ENGINE
-=============================== */
 function applyActiveFilter() {
   const listEl = document.getElementById("patientsList");
   listEl.innerHTML = "";
@@ -97,13 +90,11 @@ function applyActiveFilter() {
   filtered.forEach(renderPatientCard);
 }
 
-/* ===============================
-   🔍 SEARCH PATIENT
-=============================== */
+
 document.getElementById("searchInput").addEventListener("keyup", async (e) => {
   const query = e.target.value.trim();
 
-  // 🧼 If cleared → restore normal view
+  //  If cleared → restore normal view
   if (query.length === 0) {
     searchResults = null;
     applyActiveFilter();
@@ -122,9 +113,7 @@ document.getElementById("searchInput").addEventListener("keyup", async (e) => {
   }
 });
 
-/* ===============================
-   🧩 RENDER HELPERS
-=============================== */
+
 function renderPatientCard(p) {
   const listEl = document.getElementById("patientsList");
   const template = document.getElementById("patient-card-template");
@@ -132,34 +121,34 @@ function renderPatientCard(p) {
   const clone = template.content.cloneNode(true);
   const li = clone.querySelector(".patient-card");
 
-  // 🔹 Fill data
+  // Fill data
   li.querySelector(".patient-name").innerText = p.name;
   li.querySelector(".patient-age").innerText = p.age;
   li.querySelector(".patient-mobile").innerText = p.primary_mobile;
   li.querySelector(".patient-id").innerText = p.patient_id;
 
   
-// 🚫 DELETED PATIENT UI GUARD
+// DELETED PATIENT UI GUARD
 if (p.is_deleted === true || p.name === "DELETED_PATIENT") {
   li.classList.add("deleted");
 
-  // 🔒 Block card navigation
+  // Block card navigation
   li.addEventListener("click", (e) => {
     e.stopPropagation();
     alert("This patient has been deleted.");
   });
 
-  // 🧹 Hide action buttons completely
+  // Hide action buttons completely
   li.querySelector(".new-record")?.remove();
   li.querySelector(".delete-patient")?.remove();
 
-  // 🧾 Hide mobile (PII wiped anyway)
+  // Hide mobile (PII wiped anyway)
   const mobileEl = li.querySelector(".patient-mobile");
   if (mobileEl) {
     mobileEl.innerText = "—";
   }
 
-  // 🏷 Add DELETED badge
+  // Add DELETED badge
   const badge = document.createElement("div");
   badge.innerText = "DELETED";
   badge.className = "deleted-badge";
@@ -169,14 +158,14 @@ if (p.is_deleted === true || p.name === "DELETED_PATIENT") {
   listEl.appendChild(li);
   return;
 }
-  /* 👉 CARD CLICK → PATIENT DASHBOARD */
+  /*  CARD CLICK → PATIENT DASHBOARD */
   li.addEventListener("click", () => {
     window.location.href = `patient.html?patient_id=${p.patient_id}`;
   });
 
 
 
-  /* 👉 NEW RECORD */
+  /*  NEW RECORD */
   li.querySelector(".new-record").addEventListener("click", (e) => {
     e.stopPropagation();
     window.location.href = `new-record.html?patient_id=${p.patient_id}`;
@@ -192,25 +181,18 @@ li.querySelector(".delete-patient").addEventListener("click", (e) => {
   listEl.appendChild(li);
 }
 
-/* ===============================
-   ➕ ADD PATIENT
-=============================== */
+
 document.getElementById("addPatientBtn").addEventListener("click", () => {
   window.location.href = "new_patient.html";
 });
 
-/* ===============================
-   🚪 LOGOUT
-=============================== */
+
 document.getElementById("logoutBtn").addEventListener("click", async () => {
   await logout();
 });
 
 
 
-/* ===============================
-   📊 LOAD ANALYTICS (NUMBERS + CHART)
-=============================== */
 async function loadAnalytics() {
   try {
     const res = await apiFetch("/dashboard/analytics");
@@ -224,10 +206,10 @@ async function loadAnalytics() {
     document.getElementById("deletedPatients").innerText =
       res.deleted_patients ?? 0;
 
-    // 🔒 STORE FULL DATA (NO SLICING HERE)
+    //  STORE FULL DATA (NO SLICING HERE)
     fullDailyCounts = res.daily_counts || [];
 
-    // 🔥 SINGLE render entry point
+    // SINGLE render entry point
     renderPatientsChart(getChartData());
 
   } catch (err) {
@@ -246,10 +228,6 @@ function getChartData() {
 }
 
 
-
-/* ===============================
-   📊 ANALYTICS CLICK FILTER
-=============================== */
 const analyticsEl = document.getElementById("analyticsCards");
 if (analyticsEl) {
   analyticsEl.addEventListener("click", (e) => {
@@ -270,7 +248,7 @@ if (analyticsEl) {
       activeFilter = type;
     }
 
-    // ✅ CORRECT chart range mapping
+    //  CORRECT chart range mapping
     switch (type) {
       case "today":
       case "week":
@@ -287,10 +265,9 @@ if (analyticsEl) {
     renderPatientsChart(getChartData());
     applyActiveFilter();
   });
-}
-/* ===============================
-   📈 RENDER DAILY PATIENTS CHART
-=============================== */
+}  
+
+
 function renderPatientsChart(dailyCounts = []) {
   const canvas = document.getElementById("patientsChart");
   if (!canvas) return;

@@ -1,4 +1,4 @@
-/* ================= ROOT ================= */
+
 :root {
   --bg: #0b1116;
   --card: rgba(20, 32, 40, 0.65);
@@ -9,7 +9,6 @@
   --muted: #9fb3bd;
 }
 
-/* ================= GLOBAL ================= */
 * {
   box-sizing: border-box;
   font-family: "Inter", system-ui, sans-serif;
@@ -23,7 +22,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ================= BACKGROUND ================= */
+
 .vp-bg {
   position: fixed;
   inset: 0;
@@ -59,7 +58,7 @@ body {
   animation: pulse 4s ease-in-out infinite;
 }
 
-/* ================= HEADER ================= */
+
 .top-bar {
   display: flex;
   align-items: center;
@@ -81,7 +80,7 @@ body {
   cursor: pointer;
 }
 
-/* ================= CARDS ================= */
+
 .card {
   margin-bottom: 20px;
 }
@@ -96,7 +95,7 @@ body {
   animation: fadeUp .8s ease both;
 }
 
-/* ================= SUMMARY ================= */
+
 .summary-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px,1fr));
@@ -122,7 +121,6 @@ body {
   color: var(--muted);
 }
 
-/* ================= ACTIONS ================= */
 .actions {
   display: flex;
   flex-wrap: wrap;
@@ -146,7 +144,7 @@ body {
   box-shadow: 0 0 25px var(--accent-soft);
 }
 
-/* ================= ANIMATIONS ================= */
+
 @keyframes drift {
   from { transform: translate(0,0); }
   to { transform: translate(-40px,-40px); }
@@ -283,3 +281,26 @@ body {
 .delete-record-btn:hover {
   text-decoration: underline;
 }
+
+.factor-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.bar {
+  width: 60%;   /* instead of 100% */
+  height: 8px;
+  background: #2a2f3a;
+  border-radius: 6px;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 6px;
+}
+
+.fill.red { background: #e04b4b; }
+.fill.orange { background: #f2b84b; }
+.fill.green { background: #4cd964; }

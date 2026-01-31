@@ -1,7 +1,4 @@
-/* ================================
-   VitaPulse Admin Panel – CSS Only
-   Medical • Calm • Premium
-   ================================ */
+
 
 :root {
   --bg-main: #f7fafc;
@@ -19,9 +16,7 @@
   --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ================================
-   Base Layout
-   ================================ */
+
 
 body {
   margin: 0;
@@ -39,7 +34,7 @@ h2 {
   position: relative;
 }
 
-/* subtle ECG underline */
+
 h2::after {
   content: "";
   display: block;
@@ -55,9 +50,6 @@ h2::after {
   animation: pulseLine 2.5s infinite;
 }
 
-/* ================================
-   Stats Cards
-   ================================ */
 
 #stats > div {
   background: var(--card-bg);
@@ -95,9 +87,6 @@ h2::after {
   font-size: 0.9rem;
 }
 
-/* ================================
-   Buttons
-   ================================ */
 
 button {
   border: none;
@@ -126,9 +115,7 @@ button:nth-child(1):hover { background: rgba(241, 196, 15, 0.15); }
 button:nth-child(2):hover { background: rgba(46, 204, 113, 0.15); }
 button:nth-child(3):hover { background: rgba(231, 76, 60, 0.15); }
 
-/* ================================
-   Requests List
-   ================================ */
+
 
 #list {
   display: grid;
@@ -136,7 +123,6 @@ button:nth-child(3):hover { background: rgba(231, 76, 60, 0.15); }
   margin-top: 20px;
 }
 
-/* assuming JS injects divs inside #list */
 #list > div {
   background: var(--card-bg);
   padding: 18px 20px;
@@ -147,7 +133,7 @@ button:nth-child(3):hover { background: rgba(231, 76, 60, 0.15); }
   position: relative;
 }
 
-/* animated status bar */
+
 #list > div::before {
   content: "";
   position: absolute;
@@ -163,9 +149,7 @@ button:nth-child(3):hover { background: rgba(231, 76, 60, 0.15); }
   animation: statusPulse 2s infinite;
 }
 
-/* ================================
-   Error Message
-   ================================ */
+
 
 #error {
   margin-top: 20px;
@@ -173,9 +157,7 @@ button:nth-child(3):hover { background: rgba(231, 76, 60, 0.15); }
   animation: shake 0.4s ease;
 }
 
-/* ================================
-   Animations
-   ================================ */
+
 
 @keyframes fadeInPage {
   from {
@@ -236,9 +218,7 @@ button:nth-child(3):hover { background: rgba(231, 76, 60, 0.15); }
   100% { transform: translateX(0); }
 }
 
-/* ================================
-   Reduced Motion
-   ================================ */
+
 
 @media (prefers-reduced-motion: reduce) {
   * {

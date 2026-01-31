@@ -1,8 +1,6 @@
 import { apiFetch } from "./api.js";
 
-/* ===============================
-   🔐 AUTH GUARD
-=============================== */
+
 firebase.auth().onAuthStateChanged(async (user) => {
   if (!user) {
     window.location.href = "login.html";
@@ -18,16 +16,12 @@ function getPrediction(e) {
   };
 }
 
-/* ===============================
-   🌍 GLOBAL STATE
-=============================== */
+
 let originalTimeline = [];
 let currentTimeline = [];
 let openBody = null;
 
-/* ===============================
-   📌 LOAD PAGE
-=============================== */
+
 
 async function loadPatientPage() {
   const params = new URLSearchParams(window.location.search);
@@ -43,9 +37,6 @@ async function loadPatientPage() {
     return;
   }
 
-  /* =====================================================
-     🔐 FRONTEND GUARD — BLOCK DELETED PATIENT
-     ===================================================== */
   if (
     data.patient?.is_deleted === true ||
     data.patient?.name === "DELETED_PATIENT"
@@ -55,9 +46,6 @@ async function loadPatientPage() {
     return;
   }
 
-  /* =====================================================
-     ✅ NORMAL FLOW (UNCHANGED)
-     ===================================================== */
   renderPatientHeader(data.patient);
   renderHealthSummary(data.summary);
   setupOutcomeCheckbox(data.patient);
@@ -68,9 +56,7 @@ async function loadPatientPage() {
   sortTimeline("desc"); // default latest first
 }
 
-/* ===============================
-   👤 HEADER (FIXED)
-=============================== */
+
 function renderPatientHeader(p) {
   const genderMap = {
     0: "Female",
@@ -92,9 +78,7 @@ function renderPatientHeader(p) {
     p.guardian_email ?? "Not available";
 }
 
-/* ===============================
-   ❤️ SUMMARY
-=============================== */
+
 function renderHealthSummary(s) {
   document.getElementById("healthScore").innerText = s.health_score;
   document.getElementById("currentRisk").innerText = s.latest_risk_level;
@@ -105,9 +89,7 @@ function renderHealthSummary(s) {
     `${s.trend.status} (Δ ${s.trend.delta})`;
 }
 
-/* ===============================
-   🔃 SORT
-=============================== */
+
 function getTimestamp(e) {
   if (e.date?.seconds) return e.date.seconds * 1000;
   return new Date(e.date).getTime();
@@ -122,9 +104,7 @@ function sortTimeline(order) {
   renderTimeline(currentTimeline);
 }
 
-/* ===============================
-   🕒 TIMELINE
-=============================== */
+
 function renderTimeline(timeline) {
   const container = document.getElementById("timeline");
   container.innerHTML = "";
@@ -163,7 +143,7 @@ function renderTimeline(timeline) {
       </span>
     `;  
 
-    // 🗑 DELETE BUTTON
+    //  DELETE BUTTON
     const deleteBtn = document.createElement("button");
     deleteBtn.innerText = "🗑 Delete";
     deleteBtn.className = "delete-record-btn";
@@ -278,9 +258,37 @@ function renderTimeline(timeline) {
         <div class="section">
           <h4>Top Risk Factors</h4>
           <ul>
-            ${e.top_factors
-              .map(f => `<li>${f.feature} (${Math.round(f.importance * 100)}%)</li>`)
-              .join("")}
+            ${
+              Array.isArray(e.top_factors) && e.top_factors.length
+                ? `
+              <div class="section">
+                <h4>Top Risk Factors</h4>
+                <div class="factors">
+                  ${e.top_factors
+                    .map(
+                      f => `
+                    <div class="factor-row">
+                      <span>${f.label}</span>
+                      <div class="bar">
+                        <div 
+                          class="fill ${
+                            f.score > 70
+                              ? "red"
+                              : f.score > 40
+                              ? "orange"
+                              : "green"
+                          }"
+                          style="width:${Math.min(f.score, 65)}%"
+                        ></div>
+                      </div>
+                    </div>
+                  `
+                    )
+                    .join("")}
+                </div>
+              </div>`
+                : ""
+            }
           </ul>
         </div>`
           : ""
@@ -318,9 +326,6 @@ function renderTimeline(timeline) {
 }
 
 
-/* ===============================
-   🎛 CONTROLS
-=============================== */
 document.getElementById("sortOrder").addEventListener("change", e => {
   sortTimeline(e.target.value);
 });
@@ -339,9 +344,6 @@ document.getElementById("riskFilter").addEventListener("change", e => {
 
 document.getElementById("backBtn").onclick = () => history.back();
 
-/* ===============================
-   📄 DOWNLOAD PDF (BACKEND)
-=============================== */
 document.getElementById("downloadPdfBtn")?.addEventListener("click", async () => {
   try {
     const patientId = new URLSearchParams(window.location.search).get("patient_id");
@@ -365,9 +367,7 @@ document.getElementById("downloadPdfBtn")?.addEventListener("click", async () =>
   }
 });
 
-/* ===============================
-   📧 SEND REPORT VIA EMAIL
-=============================== */
+
 document.getElementById("sendEmailBtn")?.addEventListener("click", async () => {
   try {
     const patientId = new URLSearchParams(window.location.search).get("patient_id");
@@ -400,9 +400,6 @@ document.getElementById("sendEmailBtn")?.addEventListener("click", async () => {
   }
 });
 
-/* ===============================
-   📈 OPEN TRENDS PAGE
-=============================== */
 document.getElementById("trendsBtn")?.addEventListener("click", (e) => {
   e.preventDefault();
   e.stopPropagation();
@@ -418,9 +415,7 @@ document.getElementById("trendsBtn")?.addEventListener("click", (e) => {
   window.location.href = `trends.html?patient_id=${patientId}`;
 });
 
-/* ===============================
-   ➕ NEW RECORD
-=============================== */
+
 document.getElementById("newRecordBtn")?.addEventListener("click", (e) => {
   e.preventDefault();
   e.stopPropagation();

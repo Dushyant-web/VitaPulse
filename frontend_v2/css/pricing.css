@@ -114,12 +114,7 @@ body {
     padding-bottom: 30px;
 }
 
-/* =========================
-   PREMIUM ANIMATIONS ADD-ON
-   Paste at END of pricing.css
-   ========================= */
 
-/* 1) Page load: header + cards entrance */
 .pricing-header h1,
 .pricing-header p{
   opacity: 0;
@@ -146,7 +141,7 @@ body {
   to{ opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* 2) Subtle hover: lift + soft glow */
+
 .pricing-card{
   transition: transform .35s cubic-bezier(.22,1,.36,1),
               box-shadow .35s cubic-bezier(.22,1,.36,1),
@@ -159,7 +154,6 @@ body {
   border-color: rgba(255,255,255,.18);
 }
 
-/* 3) Premium shine sweep on hover (very light) */
 .pricing-card::after{
   content:"";
   position:absolute;
@@ -178,7 +172,6 @@ body {
   transition: transform .9s cubic-bezier(.22,1,.36,1), opacity .2s ease;
 }
 
-/* 4) Featured card: breathing border glow (not flashy) */
 .pricing-card.featured{
   position: relative;
   overflow: hidden;
@@ -198,7 +191,6 @@ body {
   pointer-events:none;
   z-index: 0;
 }
-/* keep content above glow */
 .pricing-card > *{ position: relative; z-index: 1; }
 
 @keyframes vpPulse{
@@ -206,7 +198,6 @@ body {
   50%{ transform: scale(1.03); opacity:1; }
 }
 
-/* 5) List items: gentle reveal on load */
 .pricing-card ul li{
   opacity: 0;
   transform: translateY(6px);
@@ -223,7 +214,6 @@ body {
   to{ opacity: 1; transform: translateY(0); }
 }
 
-/* 6) Buttons: subtle shimmer on hover */
 .btn{
   position: relative;
   overflow: hidden;
@@ -245,7 +235,6 @@ body {
   transition: left .9s cubic-bezier(.22,1,.36,1), opacity .2s ease;
 }
 
-/* 7) Accessibility: reduce motion */
 @media (prefers-reduced-motion: reduce){
   .pricing-header h1, .pricing-header p,
   .pricing-card, .pricing-card ul li{

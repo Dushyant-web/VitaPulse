@@ -4,13 +4,13 @@ let isPredictionMode = true;
 let patientId = null;
 let patientProfile = null;
 
-/* ================= AUTH ================= */
+
 firebase.auth().onAuthStateChanged(async (user) => {
   if (!user) return (window.location.href = "login.html");
   initPage();
 });
 
-/* ================= INIT ================= */
+
 async function initPage() {
   patientId = new URLSearchParams(window.location.search).get("patient_id");
   if (!patientId) return alert("Patient ID missing");
@@ -20,7 +20,7 @@ async function initPage() {
   setupFormSubmit();
 }
 
-/* ================= PATIENT ================= */
+
 async function loadPatientProfile() {
   const data = await apiFetch(`/patients/${patientId}`);
   patientProfile = data;
@@ -31,7 +31,6 @@ async function loadPatientProfile() {
   document.getElementById("gender").value = data.gender === 1 ? "Male" : "Female";
 }
 
-/* ================= BMI ================= */
 function setupBMIListener() {
   const w = document.querySelector("[name='weight']");
   const h = document.querySelector("[name='height']");
@@ -46,7 +45,6 @@ function setupBMIListener() {
   h.oninput = calc;
 }
 
-/* ================= SUBMIT ================= */
 function setupFormSubmit() {
   document.getElementById("recordForm").onsubmit = async (e) => {
     e.preventDefault();
@@ -71,12 +69,10 @@ function setupFormSubmit() {
   };
 }
 
-/* ================= PAYLOAD ================= */
 function buildPayload(form) {
   const fd = new FormData(form);
   const cb = (n) => (fd.get(n) ? 1 : 0);
 
-  /* -------- INPUT -------- */
   const input = {
     age: patientProfile.age,
     gender: patientProfile.gender,
@@ -95,7 +91,6 @@ function buildPayload(form) {
     dizziness: fd.get("dizziness"),
   };
 
-  /* -------- ECG (STRICT) -------- */
   let ecg = null;
 
   const hasECG =
@@ -132,7 +127,6 @@ function buildPayload(form) {
   };
 }
 
-/* ================= RESULT ================= */
 function showPrediction(r) {
   document.getElementById("recordForm").style.display = "none";
   document.getElementById("predictionBox").style.display = "block";
@@ -143,7 +137,7 @@ function showPrediction(r) {
   document.getElementById("predExplain").innerText =
     r.human_explanation || r.explanation || "—";
 
-  fill("predFactors", r.top_features || r.top_factors);
+  renderTopFactors(r.top_factors);
   fill("predSymptoms", r.symptom_insights);
   fill(
     "predWhatIf",
@@ -170,7 +164,6 @@ function showPrediction(r) {
   };
 }
 
-/* ================= HELPERS ================= */
 function fill(id, arr = [], map = (x) =>
   x.feature ? `${x.feature} — ${x.importance}` : x
 ) {
@@ -180,5 +173,37 @@ function fill(id, arr = [], map = (x) =>
     const li = document.createElement("li");
     li.innerText = map(v);
     el.appendChild(li);
+  });
+}
+
+
+function renderTopFactors(factors = []) {
+  const el = document.getElementById("predFactors");
+  el.innerHTML = "";
+
+  if (!factors.length) {
+    el.innerHTML = "<p style='opacity:.6'>No dominant risk factors</p>";
+    return;
+  }
+
+  factors.slice(0, 3).forEach(f => {
+    const score = f.score;
+
+    const color =
+      score > 70 ? "red" :
+      score > 40 ? "orange" :
+      "green";
+
+    const row = document.createElement("div");
+    row.className = "factor-row";
+
+    row.innerHTML = `
+      <span>${f.label}</span>
+      <div class="bar">
+        <div class="fill ${color}" style="width:${score}%"></div>
+      </div>
+    `;
+
+    el.appendChild(row);
   });
 }

@@ -1,32 +1,32 @@
 :root {
-    /* --- Palette: Slate (Backgrounds) --- */
+    
     --bg-deep: #0f172a;
-    /* Main background */
+    
     --bg-surface: #1e293b;
-    /* Cards/Headers */
+    
     --bg-surface-hover: #334155;
 
-    /* --- Palette: Cyan/Teal (Medical Accents) --- */
+    
     --accent-primary: #06b6d4;
-    /* Cyan 500 */
+    
     --accent-glow: rgba(6, 182, 212, 0.4);
     --accent-soft: rgba(6, 182, 212, 0.1);
 
-    /* --- Typography --- */
+   
     --text-primary: #f8fafc;
     --text-secondary: #94a3b8;
     --text-muted: #64748b;
 
-    /* --- Borders & Effects --- */
+   
     --border-subtle: #334155;
     --shadow-elevation: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
 
-    /* --- Animation Timings --- */
+    
     --ease-out-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);
     --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ================= RESET & BASE ================= */
+
 
 *,
 *::before,
@@ -38,7 +38,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    /* Clean, native sans */
+    
     background-color: var(--bg-deep);
     color: var(--text-primary);
     line-height: 1.6;
@@ -60,9 +60,7 @@ hr {
     margin: 2rem 0;
 }
 
-/* ================= BACKGROUND ANIMATION LAYERS ================= */
 
-/* 1. Grid Breathing Background */
 .bg-animation-layer {
     position: fixed;
     top: 0;
@@ -76,12 +74,12 @@ hr {
         linear-gradient(90deg, var(--accent-soft) 1px, transparent 1px);
     background-size: 50px 50px;
     mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-    /* Fade edges */
+  
     opacity: 0.3;
     animation: breathe-grid 8s ease-in-out infinite;
 }
 
-/* 2. ECG Scan Line Loop */
+
 .scan-line {
     position: fixed;
     top: 0;
@@ -95,14 +93,14 @@ hr {
     animation: scan-vertical 12s linear infinite;
 }
 
-/* ================= HEADER ================= */
+
 
 .dashboard-header {
     position: sticky;
     top: 0;
     z-index: 100;
     background: rgba(15, 23, 42, 0.85);
-    /* Glass surface */
+    
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border-subtle);
     padding: 1rem 2rem;
@@ -111,7 +109,7 @@ hr {
     align-items: center;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 
-    /* Entrance */
+   
     animation: slide-in-top 0.8s var(--ease-out-back);
 }
 
@@ -126,7 +124,7 @@ hr {
     -webkit-text-fill-color: transparent;
 }
 
-/* Red "Live" dot next to Hospital Header */
+
 #hospitalName::after {
     content: '';
     position: absolute;
@@ -135,7 +133,7 @@ hr {
     width: 6px;
     height: 6px;
     background-color: #ef4444;
-    /* Red 500 */
+   
     border-radius: 50%;
     box-shadow: 0 0 8px #ef4444;
     animation: pulse-live 2s infinite;
@@ -156,7 +154,7 @@ button {
     position: relative;
 }
 
-/* Logout (Outline) */
+
 .btn-outline {
     background: transparent;
     border: 1px solid var(--border-subtle);
@@ -182,11 +180,11 @@ button {
     transition: 0.7s ease;
 }
 
-/* Primary Action (Add Patient) */
+
 .btn-primary {
     background: var(--accent-primary);
     color: #0c4a6e;
-    /* Dark text for contrast */
+    
     border: none;
     padding: 1rem 2rem;
     box-shadow: 0 4px 6px rgba(6, 182, 212, 0.25);
@@ -205,7 +203,7 @@ button {
     transform: translateY(0);
 }
 
-/* Button Ripple effect logic would need JS, but we can do a subtle CSS shimmer */
+
 .btn-primary::after {
     content: '';
     position: absolute;
@@ -225,7 +223,7 @@ button {
     transition: 0s;
 }
 
-/* Inputs */
+
 .search-section {
     max-width: 600px;
     margin: 0 auto;
@@ -258,7 +256,7 @@ input[type="text"]:focus {
     transform: scale(1.01);
 }
 
-/* Placeholder transition */
+
 input::placeholder {
     color: var(--text-muted);
     transition: color 0.3s;
@@ -268,7 +266,7 @@ input:focus::placeholder {
     color: var(--text-secondary);
 }
 
-/* ================= LIST & CONTENT ================= */
+
 .patient-card{
     cursor: pointer;
 }
@@ -563,7 +561,7 @@ input:focus::placeholder {
     inset 0 0 18px rgba(255,255,255,0.22);
 }
 
-/* Yeah maine edit kiya hain */
+
 
 .modal {
   position: fixed;
@@ -619,7 +617,7 @@ input:focus::placeholder {
   align-items: center;
 }
 
-/* ================= ANALYTICS GRID ================= */
+
 
 .analytics-grid {
   list-style: none;

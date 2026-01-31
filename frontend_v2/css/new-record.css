@@ -278,12 +278,11 @@ input[disabled]{
 @media (max-width: 720px){
   .topbar{ gap: 10px; }
   .grid-2{ grid-template-columns: 1fr; }
-  .doc-avatar{ display:none; } /* optional: hide avatar on very small screens */
+  .doc-avatar{ display:none; }
 }
 
 
 
-   /*Doctor Avatar (Premium, subtle)*/
 
 .doc-avatar{
   width: 190px;
@@ -409,6 +408,36 @@ body > button[onclick="history.back()"]{ display:none; }
 .card:has(textarea){
   position: relative;
   overflow: hidden; /* glow clean rahe */
+}
+
+.factor-row {
+  align-items: center;
+  margin: 4px 0;
+}
+
+.bar {
+  width: 180px;
+  background: #1f2937;
+  border-radius: 6px;
+  height: 10px;
+}
+
+.fill {
+  background: linear-gradient(90deg, #ef4444, #f59e0b);
+  height: 100%;
+  border-radius: 6px;
+}
+
+.fill.red {
+  background: linear-gradient(90deg, #dc2626, #ef4444);
+}
+
+.fill.orange {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+
+.fill.green {
+  background: linear-gradient(90deg, #16a34a, #22c55e);
 }
 
 

@@ -8,9 +8,6 @@ if (!token) {
 
 let currentStatus = "pending";
 
-// ===============================
-// LOAD REQUESTS BY STATUS
-// ===============================
 async function loadByStatus(status) {
   currentStatus = status;
   listDiv.innerHTML = "Loading...";
@@ -36,9 +33,6 @@ async function loadByStatus(status) {
   }
 }
 
-// ===============================
-// RENDER REQUESTS
-// ===============================
 function renderRequests(requests, status) {
   listDiv.innerHTML = "";
 
@@ -80,9 +74,6 @@ function renderRequests(requests, status) {
   });
 }
 
-// ===============================
-// APPROVE
-// ===============================
 async function approve(id) {
   if (!confirm("Approve this hospital?")) return;
 
@@ -106,9 +97,7 @@ async function approve(id) {
   }
 }
 
-// ===============================
-// REJECT
-// ===============================
+
 async function reject(id) {
   if (!confirm("Reject this hospital?")) return;
 

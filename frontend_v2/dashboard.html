@@ -6,15 +6,12 @@
 
   <link rel="stylesheet" href="css/dashboard.css" />
 
-  <!-- ================= FIREBASE SDK ================= -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- ================= FIREBASE INIT ================= -->
   <script src="js/firebase-init.js"></script>
 
-  <!-- ================= DASHBOARD MODULE ================= -->
   <script type="module" src="js/dashboard.js"></script>
 </head>
 
@@ -30,11 +27,9 @@
 
 <hr />
 
-<!-- ================= ANALYTICS ================= -->
 <section class="patients-section" id="analyticsSection">
   <h2>Dashboard Analytics</h2>
 
-  <!-- ✅ ANALYTICS GRID -->
   <ul id="analyticsCards" class="analytics-grid">
     <li class="analytics-card" data-type="total">
       <small>Total Patients</small>
@@ -57,7 +52,6 @@
     </li>
   </ul>
 
-  <!-- 📈 CHART -->
   <div class="patient-card">
     <canvas id="patientsChart" height="120"></canvas>
   </div>
@@ -67,7 +61,6 @@
 
 <hr />
 
-<!-- ================= SEARCH ================= -->
 <section class="search-section">
   <h2>Search Patient</h2>
   <input type="text" id="searchInput" placeholder="Enter patient mobile number" />
@@ -75,13 +68,11 @@
 
 <hr />
 
-<!-- ================= PATIENT LIST ================= -->
 <section class="patients-section">
   <h2>Recent Patients</h2>
   <ul id="patientsList" class="patient-list"></ul>
 </section>
 
-<!-- ================= PATIENT CARD TEMPLATE ================= -->
 <template id="patient-card-template">
   <li class="patient-card">
     <div class="patient-info">
@@ -99,16 +90,13 @@
 
 <hr />
 
-<!-- ================= ACTIONS ================= -->
 <section class="actions">
   <button id="addPatientBtn" class="btn-primary">+ Add New Patient</button>
 </section>
 
-<!-- ================= BACKGROUND ================= -->
 <div class="bg-animation-layer"></div>
 <div class="scan-line"></div>
 
-<!-- ================= DELETE CONFIRM MODAL ================= -->
 <div id="deleteModal" class="modal hidden">
   <div class="modal-content">
     <h3>Confirm Patient Deletion</h3>

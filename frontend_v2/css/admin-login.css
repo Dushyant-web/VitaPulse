@@ -1,13 +1,8 @@
-/* 
- * VitaPulse Admin Login Styles
- * Theme: Secure Clinical Institutional
- * Design Keywords: secure, institutional, restricted, professional, hospital-grade, controlled, compliant, serious
- */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-    /* Clinical Color Palette */
+    
     --bg-base: #0a0c10;
     --bg-surface: #11141a;
     --brand-primary: #00e5ff;
@@ -19,7 +14,7 @@
     --error-red: #ff4d4d;
     --success-green: #00ff9d;
 
-    /* Security Spacing */
+    
     --spacing-xs: 4px;
     --spacing-sm: 8px;
     --spacing-md: 16px;
@@ -47,9 +42,7 @@ body {
     line-height: 1.5;
 }
 
-/* 
- * 1. Page Atmosphere - Optional Decorative Layers
- */
+
 .clinical-bg-overlay {
     position: fixed;
     top: 0;
@@ -99,9 +92,7 @@ body {
     }
 }
 
-/* 
- * 2. Institutional Title
- */
+
 h2 {
     font-size: 1.25rem;
     font-family: 'Inter', sans-serif;
@@ -125,9 +116,7 @@ h2::before {
     box-shadow: 0 0 10px var(--brand-primary);
 }
 
-/* 
- * 3. Login Form Experience - Secure Inputs
- */
+
 input {
     width: 320px;
     background: var(--bg-surface);
@@ -137,7 +126,7 @@ input {
     font-family: 'Inter', sans-serif;
     font-size: 0.9rem;
     border-radius: 0;
-    /* Sharp corners for institutional feel */
+    
     transition: all 0.2s ease;
     z-index: 10;
     position: relative;
@@ -158,9 +147,7 @@ input:focus {
     box-shadow: 0 0 0 4px rgba(0, 229, 255, 0.05);
 }
 
-/* 
- * 4. Authoritative CTA
- */
+
 button#loginBtn {
     width: 320px;
     background: transparent;
@@ -190,9 +177,7 @@ button#loginBtn:active {
     filter: brightness(0.9);
 }
 
-/* 
- * 5. Error Ready Styling
- */
+
 #error {
     margin-top: var(--spacing-lg);
     font-size: 0.8rem;
@@ -204,9 +189,7 @@ button#loginBtn:active {
     letter-spacing: 0.05em;
 }
 
-/* 
- * Accessibility & Responsiveness
- */
+
 @media (max-width: 480px) {
 
     input,
@@ -225,17 +208,12 @@ button#loginBtn:active {
     }
 }
 
-/* Form Container Spacing (Structural helper for existing br tags) */
-br {
+
+br{ 
     display: none;
-    /* Hide original br tags to control layout with flex/gap if we could, but we can't alter structure. 
-                     Wait, I shouldn't hide them if it breaks things. Let's keep them and style the layout carefully. */
 }
 
-/* Re-evaluating structural constraints: 
-   "DO NOT modify, delete, or rearrange the existing HTML body or login form structure."
-   The br tags are there, I must work around them.
-*/
+
 
 br {
     display: block;

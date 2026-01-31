@@ -1,7 +1,3 @@
-/* 
- * VitaPulse Onboarding Styles
- * Vibe: clinical, calm, premium, trustworthy
- */
 
 :root {
     --bg-deep: #0a0c10;
@@ -33,11 +29,7 @@ body {
     position: relative;
 }
 
-/* 
- * OPTIONAL: Background ambient effects
- * If the user chooses to add a wrapper, these will apply.
- * Even without it, we apply a subtle radial gradient to the body.
- */
+
 body::before {
     content: '';
     position: absolute;
@@ -107,7 +99,7 @@ h1 {
     }
 }
 
-/* Steps List - Clinical Timeline Aesthetic */
+
 .steps {
     list-style: none;
     margin-bottom: 48px;
@@ -177,16 +169,12 @@ h1 {
     z-index: 1;
 }
 
-/* Hide the original unicode numbers if the user wants a cleaner look, 
-   but since we can't edit HTML, we'll style them into the design */
-/* Actually, let's keep them but make them look like professional markers */
 
 .steps li {
-    /* Hide standard bullets */
     list-style: none;
 }
 
-/* Actions Area */
+
 .actions {
     display: flex;
     gap: 16px;

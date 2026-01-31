@@ -2,9 +2,7 @@ import { apiFetch } from "./api.js";
 
 let riskChart, bpChart, bmiChart;
 
-/* ===============================
-   🔴🟡 RISK ZONES
-=============================== */
+
 const riskBandsPlugin = {
   id: "riskBands",
   beforeDraw(chart) {
@@ -15,7 +13,7 @@ const riskBandsPlugin = {
     const left = chartArea.left;
     const right = chartArea.right;
 
-    // 🔴 Danger >70%
+   
     ctx.fillStyle = "rgba(255,0,0,0.08)";
     ctx.fillRect(
       left,
@@ -24,7 +22,7 @@ const riskBandsPlugin = {
       y.getPixelForValue(70) - y.getPixelForValue(100)
     );
 
-    // 🟡 Warning 40–70%
+  
     ctx.fillStyle = "rgba(255,165,0,0.08)";
     ctx.fillRect(
       left,
@@ -35,9 +33,7 @@ const riskBandsPlugin = {
   }
 };
 
-/* ===============================
-   📍 LATEST VISIT MARKER
-=============================== */
+
 const latestVisitLinePlugin = {
   id: "latestVisitLine",
   afterDraw(chart) {
@@ -60,9 +56,7 @@ const latestVisitLinePlugin = {
   }
 };
 
-/* ===============================
-   🔐 AUTH
-=============================== */
+
 firebase.auth().onAuthStateChanged(async user => {
   if (!user) return (window.location.href = "login.html");
   loadTrends();
@@ -103,7 +97,7 @@ function buildCharts(timeline, summary) {
   const sys = timeline.map(v => v.vitals.ap_hi);
   const dia = timeline.map(v => v.vitals.ap_lo);
 
-  // ✅ BMI DATA AS OBJECTS (IMPORTANT)
+  // BMI DATA AS OBJECTS (IMPORTANT)
   const bmi = timeline.map(v => ({
     x: ts(v),
     y: v.vitals.bmi,
@@ -116,7 +110,6 @@ function buildCharts(timeline, summary) {
       summary.latest_probability * 100
     )}%`;
 
-  /* ================= RISK ================= */
   riskChart = new Chart(document.getElementById("riskChart"), {
     type: "line",
     data: {
@@ -156,7 +149,6 @@ function buildCharts(timeline, summary) {
     plugins: [riskBandsPlugin, latestVisitLinePlugin]
   });
 
-  /* ================= BP ================= */
   bpChart = new Chart(document.getElementById("bpChart"), {
     type: "line",
     data: {
@@ -174,7 +166,6 @@ function buildCharts(timeline, summary) {
     }
   });
 
-  /* ================= BMI ================= */
   bmiChart = new Chart(document.getElementById("bmiChart"), {
     type: "line",
     data: {
@@ -215,9 +206,7 @@ function buildCharts(timeline, summary) {
   });
 }
 
-/* ===============================
-   ☑️ TOGGLES
-=============================== */
+
 function setupToggles() {
   toggle("toggleRisk", riskChart, 0);
   toggle("toggleECG", riskChart, 1);

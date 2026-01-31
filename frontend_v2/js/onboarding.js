@@ -1,8 +1,4 @@
-// ===============================
-// 🚀 ONBOARDING
-// ===============================
 
-// 👉 Continue to dashboard
 document.getElementById("continueBtn").addEventListener("click", async () => {
   try {
     const user = firebase.auth().currentUser;
@@ -35,7 +31,7 @@ document.getElementById("continueBtn").addEventListener("click", async () => {
 });
 
 
-// 👉 RESET PASSWORD (MANDATORY OPTION)
+//  RESET PASSWORD (MANDATORY OPTION)
 document.getElementById("resetPasswordBtn").addEventListener("click", async () => {
   try {
     const user = firebase.auth().currentUser;
@@ -46,10 +42,10 @@ document.getElementById("resetPasswordBtn").addEventListener("click", async () =
       return;
     }
 
-    // 1️⃣ Send reset email
+    //  Send reset email
     await firebase.auth().sendPasswordResetEmail(user.email);
 
-    // 2️⃣ MARK onboarding as completed
+    //  MARK onboarding as completed
     const token = await user.getIdToken(true);
 
     await fetch("http://127.0.0.1:5000/auth/complete-onboarding", {
@@ -64,7 +60,7 @@ document.getElementById("resetPasswordBtn").addEventListener("click", async () =
       "Please reset your password and login again."
     );
 
-    // 3️⃣ Logout to force clean login
+   
     await firebase.auth().signOut();
     localStorage.clear();
 

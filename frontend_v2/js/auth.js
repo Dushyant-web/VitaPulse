@@ -1,6 +1,4 @@
-// ===============================
-// 🔐 LOGIN
-// ===============================
+//Login
 const loginForm = document.getElementById("loginForm");
 
 if (loginForm) {
@@ -14,16 +12,16 @@ if (loginForm) {
     errorEl.innerText = "";
 
     try {
-      // 1️⃣ Firebase login
+      // Firebase login
       const cred = await firebase
         .auth()
         .signInWithEmailAndPassword(email, password);
 
-      // 2️⃣ Get fresh ID token
+      // Get fresh ID token
       const token = await cred.user.getIdToken(true);
       localStorage.setItem("idToken", token);
 
-      // 3️⃣ Ask backend who this hospital is
+      // Ask backend who this hospital is
       const res = await fetch(`${BASE_URL}/auth/me`, {
         method: "GET",
         headers: {
@@ -39,7 +37,7 @@ if (loginForm) {
 
       const hospital = await res.json();
 
-      // 4️⃣ FIRST LOGIN CHECK
+      // FIRST LOGIN CHECK
       if (hospital.is_first_login === true) {
         // First login → onboarding
         window.location.href = "onboarding.html";

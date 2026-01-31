@@ -1,8 +1,6 @@
 import { apiFetch } from "./api.js";
 
-/* ===============================
-   🔐 AUTH GUARD
-=============================== */
+
 firebase.auth().onAuthStateChanged(async (user) => {
   if (!user) {
     window.location.href = "login.html";
@@ -12,15 +10,11 @@ firebase.auth().onAuthStateChanged(async (user) => {
   await loadPatient();
 });
 
-/* ===============================
-   🌍 STATE
-=============================== */
+
 let originalData = {};
 let isDirty = false;
 
-/* ===============================
-   📌 LOAD PATIENT
-=============================== */
+
 async function loadPatient() {
   const params = new URLSearchParams(window.location.search);
   const patientId = params.get("patient_id");
@@ -31,21 +25,21 @@ async function loadPatient() {
 
   const data = await apiFetch(`/patients/${patientId}`);
 
-  // 🚫 Deleted patient guard
+  //  Deleted patient guard
   if (data.is_deleted === true || data.name === "DELETED_PATIENT") {
     alert("This patient has been deleted and cannot be edited.");
     history.back();
     return;
   }
 
-  // 🔹 Fill form
+  //  Fill form
   document.getElementById("name").value = data.name || "";
   document.getElementById("age").value = data.age ?? "";
   document.getElementById("gender").value = data.gender ?? 1;
   document.getElementById("patientEmail").value = data.patient_email || "";
   document.getElementById("guardianEmail").value = data.guardian_email || "";
 
-  // 📌 Store original snapshot
+  //  Store original snapshot
   originalData = {
     name: document.getElementById("name").value,
     age: document.getElementById("age").value,
@@ -58,9 +52,7 @@ async function loadPatient() {
   updateSaveButton();
 }
 
-/* ===============================
-   🧠 DIRTY TRACKING
-=============================== */
+
 function setupDirtyTracking() {
   const fields = [
     "name",
@@ -92,18 +84,14 @@ function updateSaveButton() {
   if (btn) btn.disabled = !isDirty;
 }
 
-/* ===============================
-   ⚠️ UNSAVED CHANGES WARNING
-=============================== */
+
 window.addEventListener("beforeunload", (e) => {
   if (!isDirty) return;
   e.preventDefault();
   e.returnValue = "";
 });
 
-/* ===============================
-   💾 SAVE CHANGES (PARTIAL UPDATE)
-=============================== */
+
 document
   .getElementById("editPatientForm")
   .addEventListener("submit", async (e) => {
@@ -140,7 +128,7 @@ document
 
       alert("Patient updated successfully");
 
-      // ✅ reset dirty state
+      //  reset dirty state
       isDirty = false;
       originalData = {
         name,
@@ -156,9 +144,7 @@ document
     }
   });
 
-/* ===============================
-   ❌ CANCEL (WITH WARNING)
-=============================== */
+
 document.getElementById("cancelBtn").onclick = () => {
   if (isDirty) {
     const ok = confirm("You have unsaved changes. Discard them?");

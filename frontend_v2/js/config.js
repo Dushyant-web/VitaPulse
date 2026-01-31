@@ -1,4 +1,4 @@
-// 🔐 Firebase Config (Frontend Auth only)
+//  Firebase Config (Frontend Auth only)
 const firebaseConfig = {
   apiKey: "AIzaSyBKBYhQVzRMb9qOXIewuPDsXroP7Zyj_VM",
   authDomain: "vitapulse-9606a.firebaseapp.com",
@@ -9,5 +9,5 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-// 🌐 LOCAL BACKEND
+// LOCAL BACKEND
 const BASE_URL = "http://127.0.0.1:5000";
