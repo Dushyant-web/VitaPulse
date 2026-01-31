@@ -5,9 +5,7 @@ from utils.auth import verify_hospital_token
 timeline_bp = Blueprint("timeline", __name__)
 
 
-# =====================================================
-# 🔄 FIRESTORE TIMESTAMP SERIALIZER
-# =====================================================
+
 def serialize_timestamp(ts):
     """
     Convert Firestore Timestamp → JSON-safe dict
@@ -25,9 +23,7 @@ def serialize_timestamp(ts):
     return ts
 
 
-# =====================================================
-# 🧮 HEALTH SCORE CALCULATION
-# =====================================================
+
 def calculate_health_score(probability, trend_status):
     if probability is None:
         return None
@@ -42,9 +38,7 @@ def calculate_health_score(probability, trend_status):
     return max(0, min(100, score))
 
 
-# =====================================================
-# 🔑 RESOLVE HOSPITAL ID
-# =====================================================
+
 def get_hospital_id_by_email(email: str) -> str:
     hospitals = (
         db.collection("hospitals")
@@ -59,15 +53,11 @@ def get_hospital_id_by_email(email: str) -> str:
     raise ValueError("Hospital not registered in Firestore")
 
 
-# =====================================================
-# 📈 PATIENT TIMELINE + HEALTH SUMMARY
-# =====================================================
+
 @timeline_bp.route("/patients/<patient_id>/timeline", methods=["GET"])
 def patient_timeline(patient_id):
     try:
-        # =============================
-        # 🔐 AUTH
-        # =============================
+       
         auth_header = request.headers.get("Authorization")
         if not auth_header or not auth_header.startswith("Bearer "):
             raise ValueError("Authorization token missing")
@@ -76,9 +66,7 @@ def patient_timeline(patient_id):
         _, hospital_email = verify_hospital_token(id_token)
         hospital_id = get_hospital_id_by_email(hospital_email)
 
-        # =============================
-        # 👤 PATIENT CHECK
-        # =============================
+      
         patient_ref = (
             db.collection("hospitals")
             .document(hospital_id)
@@ -92,9 +80,7 @@ def patient_timeline(patient_id):
 
         patient_data = patient_doc.to_dict()
 
-        # =============================
-        # 📂 FETCH RECORDS
-        # =============================
+      
         records_ref = (
             patient_ref
             .collection("records")
@@ -107,16 +93,11 @@ def patient_timeline(patient_id):
         for record in records_ref.stream():
             data = record.to_dict() or {}
 
-            # -----------------------------
-            # ✅ SAFE TIMESTAMP RESOLUTION
-            # -----------------------------
             created_at = data.get("created_at")
             if created_at is None:
                 created_at = record.create_time  # 🔥 GUARANTEED FALLBACK
 
-            # -----------------------------
-            # Probability tracking
-            # -----------------------------
+        
             prob = (
                 data.get("probability")
                 or data.get("prediction", {}).get("probability")
@@ -128,12 +109,9 @@ def patient_timeline(patient_id):
             timeline.append({
                 "record_id": record.id,
 
-                # ✅ ALWAYS PRESENT NOW
+                #  ALWAYS PRESENT NOW
                 "date": serialize_timestamp(created_at),
 
-                # =============================
-                # RISK
-                # =============================
                 "risk": {
                     "probability": prob,
                     "risk_level": (
@@ -153,9 +131,6 @@ def patient_timeline(patient_id):
                 "confidence": data.get("prediction", {}).get("confidence")
             },
 
-                # =============================
-                # VITALS
-                # =============================
                 "vitals": {
                     "ap_hi": data.get("input", {}).get("ap_hi"),
                     "ap_lo": data.get("input", {}).get("ap_lo"),
@@ -167,18 +142,13 @@ def patient_timeline(patient_id):
                 "ecg_risk_delta": data.get("derived", {}).get("ecg_risk_delta"),
                 "doctor_notes": data.get("doctor_notes"),
 
-                # =============================
-                # LIFESTYLE
-                # =============================
+                
                 "lifestyle": {
                     "smoke": data.get("input", {}).get("smoke"),
                     "alco": data.get("input", {}).get("alco"),
                     "active": data.get("input", {}).get("active")
                 },
 
-                # =============================
-                # SYMPTOMS
-                # =============================
                 "symptoms": {
                     "chest_pain": data.get("input", {}).get("chest_pain"),
                     "nausea": data.get("input", {}).get("nausea"),
@@ -186,23 +156,17 @@ def patient_timeline(patient_id):
                     "dizziness": data.get("input", {}).get("dizziness")
                 },
 
-                # =============================
-                # ECG
-                # =============================
+                
                 "ecg": data.get("ecg"),
 
-                # =============================
-                # EXPLANATIONS (PERSISTED)
-                # =============================
+              
                 "symptom_insights": data.get("symptom_insights", []),
                 "explanation": data.get("explanation"),
                 "what_if": data.get("what_if", []),
                 "top_factors": data.get("top_factors", [])
             })
 
-        # =============================
-        # 📊 TREND ANALYSIS
-        # =============================
+        
         trend = {"status": "insufficient_data", "delta": None}
 
         if len(probabilities) >= 2:
@@ -220,9 +184,7 @@ def patient_timeline(patient_id):
             trend_status=trend["status"]
         )
 
-        # =============================
-        # 📦 RESPONSE
-        # =============================
+       
         return jsonify({
             "hospital": {
                 "hospital_id": hospital_id,

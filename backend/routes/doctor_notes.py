@@ -23,7 +23,7 @@ def get_record_ref(hospital_id, patient_id, record_id):
 )
 def add_doctor_note(patient_id, record_id):
     try:
-        # 🔐 Auth
+        # Auth
         auth_header = request.headers.get("Authorization")
         if not auth_header or not auth_header.startswith("Bearer "):
             raise ValueError("Authorization token missing")
@@ -31,7 +31,7 @@ def add_doctor_note(patient_id, record_id):
         id_token = auth_header.replace("Bearer ", "").strip()
         hospital_id, _ = verify_hospital_token(id_token)
 
-        # 📥 Input
+        # Input
         data = request.get_json()
         text = data.get("text")
 
@@ -46,7 +46,7 @@ def add_doctor_note(patient_id, record_id):
 
         record_data = record_doc.to_dict()
 
-        # ❌ Already exists
+        # Already exists
         if "doctor_notes" in record_data:
             raise ValueError("Doctor note already exists and cannot be recreated")
 
@@ -61,7 +61,7 @@ def add_doctor_note(patient_id, record_id):
             }
         })
 
-        # 🔒 Set locked_at = created_at + 15 minutes (transaction-safe)
+        #  Set locked_at = created_at + 15 minutes (transaction-safe)
         record_ref.update({
             "doctor_notes.locked_at":
                 firestore.SERVER_TIMESTAMP
@@ -85,7 +85,7 @@ def add_doctor_note(patient_id, record_id):
 )
 def edit_doctor_note(patient_id, record_id):
     try:
-        # 🔐 Auth
+        #  Auth
         auth_header = request.headers.get("Authorization")
         if not auth_header or not auth_header.startswith("Bearer "):
             raise ValueError("Authorization token missing")
@@ -93,7 +93,7 @@ def edit_doctor_note(patient_id, record_id):
         id_token = auth_header.replace("Bearer ", "").strip()
         hospital_id, _ = verify_hospital_token(id_token)
 
-        # 📥 Input
+        #  Input
         data = request.get_json()
         new_text = data.get("text")
 
@@ -115,7 +115,7 @@ def edit_doctor_note(patient_id, record_id):
         locked_at = notes.get("locked_at")
         now = firestore.SERVER_TIMESTAMP
 
-        # ⛔ HARD LOCK CHECK
+        #  HARD LOCK CHECK
         if locked_at and firestore.SERVER_TIMESTAMP > locked_at:
             return jsonify({
                 "error": "Doctor note is locked and cannot be edited"

@@ -20,9 +20,7 @@ def is_valid_email(email):
 
 patients_bp = Blueprint("patients", __name__)
 
-# =====================================================
-# 🔢 GENERATE 12-DIGIT PATIENT ID (000000000001)
-# =====================================================
+
 def generate_patient_id(hospital_id):
     counter_ref = (
         db.collection("hospitals")
@@ -44,13 +42,11 @@ def generate_patient_id(hospital_id):
     return str(new_id).zfill(12)
     
 
-# =====================================================
-# ➕ CREATE PATIENT (PRIMARY MOBILE BASED)
-# =====================================================
+
 @patients_bp.route("/patients", methods=["POST"])
 def create_patient():
     try:
-        # 🔐 AUTH
+        #  AUTH
         auth_header = request.headers.get("Authorization")
         if not auth_header or not auth_header.startswith("Bearer "):
             raise ValueError("Authorization token missing")
@@ -60,7 +56,7 @@ def create_patient():
 
         data = request.get_json()
 
-        # ✅ REQUIRED FIELDS
+        #  REQUIRED FIELDS
         name = data.get("name")
         age = data.get("age")
         gender = data.get("gender")
@@ -69,14 +65,14 @@ def create_patient():
         if not all([name, age, gender, primary_mobile]):
             raise ValueError("name, age, gender, primary_mobile are required")
 
-        # 📞 Normalize mobile → last 10 digits only
+        #  Normalize mobile → last 10 digits only
         digits_only = "".join(filter(str.isdigit, primary_mobile))
         if len(digits_only) < 10:
             raise ValueError("Invalid mobile number")
 
         primary_mobile_norm = digits_only[-10:]
 
-        # 🚫 DUPLICATE MOBILE CHECK (hospital scoped)
+        #  DUPLICATE MOBILE CHECK (hospital scoped)
         existing = (
             db.collection("hospitals")
             .document(hospital_id)
@@ -89,7 +85,7 @@ def create_patient():
         for _ in existing:
             raise ValueError("Patient with this mobile already exists")
 
-        # 🆔 GENERATE PATIENT ID
+        #  GENERATE PATIENT ID
         patient_id = generate_patient_id(hospital_id)
 
         patient_email = data.get("patient_email")
@@ -132,13 +128,11 @@ def create_patient():
         return jsonify({"error": str(e)}), 400
 
 
-# =====================================================
-# 🔍 SEARCH PATIENT BY MOBILE (PARTIAL MATCH)
-# =====================================================
+
 @patients_bp.route("/patients/search", methods=["GET"])
 def search_patient_by_mobile():
     try:
-        # 🔐 AUTH
+        #  AUTH
         auth_header = request.headers.get("Authorization")
         if not auth_header or not auth_header.startswith("Bearer "):
             raise ValueError("Authorization token missing")
@@ -187,9 +181,7 @@ def search_patient_by_mobile():
         return jsonify({"error": str(e)}), 400
 
 
-# =====================================================
-# 📋 LIST ALL PATIENTS (Dashboard)
-# =====================================================
+
 @patients_bp.route("/patients", methods=["GET"])
 def list_patients():
     try:
@@ -231,9 +223,7 @@ def list_patients():
         return jsonify({"error": str(e)}), 500
 
 
-# =====================================================
-# 👤 GET SINGLE PATIENT
-# =====================================================
+
 @patients_bp.route("/patients/<patient_id>", methods=["GET"])
 def get_patient(patient_id):
     try:
@@ -274,13 +264,11 @@ def get_patient(patient_id):
         return jsonify({"error": str(e)}), 400
 
 
-# =====================================================
-# 🗑 SOFT DELETE PATIENT
-# =====================================================
+
 @patients_bp.route("/patients/<patient_id>/soft-delete", methods=["POST"])
 def soft_delete_patient(patient_id):
     try:
-        # 🔐 AUTH
+        #  AUTH
         auth_header = request.headers.get("Authorization")
         if not auth_header or not auth_header.startswith("Bearer "):
             raise ValueError("Authorization token missing")
@@ -309,7 +297,7 @@ def soft_delete_patient(patient_id):
             "deleted_at": firestore.SERVER_TIMESTAMP,
             "deleted_reason": "manual_soft_delete",
 
-            # 🧹 PII wipe
+            # PII wipe
             "name": "DELETED_PATIENT",
             "primary_mobile": None,
             "primary_mobile_norm": None,
@@ -329,7 +317,7 @@ def soft_delete_patient(patient_id):
 @patients_bp.route("/patients/<patient_id>", methods=["PATCH", "POST"])
 def update_patient(patient_id):
     try:
-        # 🔐 AUTH
+        #  AUTH
         auth_header = request.headers.get("Authorization")
         if not auth_header or not auth_header.startswith("Bearer "):
             return jsonify({"error": "Authorization token missing"}), 401
@@ -352,7 +340,7 @@ def update_patient(patient_id):
 
         patient = snap.to_dict()
 
-        # 🚫 BLOCK EDIT IF DELETED
+        #  BLOCK EDIT IF DELETED
         if patient.get("is_deleted") is True:
             return jsonify({
                 "error": "Deleted patient cannot be edited"
@@ -360,9 +348,7 @@ def update_patient(patient_id):
 
         update_fields = {}
 
-        # ===============================
-        # ✅ ALLOWED FIELDS (OPTIONAL)
-        # ===============================
+
 
         if "name" in data:
             name = data["name"].strip()
@@ -393,25 +379,18 @@ def update_patient(patient_id):
                 return jsonify({"error": "Invalid guardian email"}), 400
             update_fields["guardian_email"] = email if email else None
 
-        # ===============================
-        # 🚫 FORBIDDEN FIELD
-        # ===============================
+
         if "primary_mobile" in data or "primary_mobile_norm" in data:
             return jsonify({
                 "error": "Mobile number cannot be changed"
             }), 400
 
-        # ===============================
-        # ❌ NOTHING TO UPDATE
-        # ===============================
+
         if not update_fields:
             return jsonify({
                 "message": "No changes provided"
             }), 200
 
-        # ===============================
-        # ✅ UPDATE
-        # ===============================
         update_fields["updated_at"] = firestore.SERVER_TIMESTAMP
 
         patient_ref.update(update_fields)
@@ -423,14 +402,11 @@ def update_patient(patient_id):
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
-# =====================================================
-# 🧠 DUPLICATE CHECK (NAME + AGE) — SOFT WARNING ONLY
-# =====================================================
+
 @patients_bp.route("/patients/duplicate-check", methods=["GET"])
 def duplicate_check():
     try:
-        # 🔐 AUTH
+        #  AUTH
         auth_header = request.headers.get("Authorization")
         if not auth_header or not auth_header.startswith("Bearer "):
             return jsonify({"error": "Authorization token missing"}), 401
@@ -484,13 +460,11 @@ def duplicate_check():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
-# =====================================================
-# ❤️ LOCK PATIENT OUTCOME (CARDIAC ARREST)
-# =====================================================
+
 @patients_bp.route("/patients/<patient_id>/outcome", methods=["POST"])
 def set_patient_outcome(patient_id):
     try:
-        # 🔐 AUTH
+        #  AUTH
         auth_header = request.headers.get("Authorization")
         if not auth_header or not auth_header.startswith("Bearer "):
             return jsonify({"error": "Authorization token missing"}), 401
@@ -516,11 +490,11 @@ def set_patient_outcome(patient_id):
 
         patient = snap.to_dict()
 
-        # 🚫 LOCK ONCE
+        #  LOCK ONCE
         if patient.get("outcome", {}).get("cardiac_arrest") == 1:
             return jsonify({"message": "Outcome already locked"}), 200
 
-        # ✅ WRITE AT PATIENT LEVEL (ML SAFE)
+        #  WRITE AT PATIENT LEVEL (ML SAFE)
         patient_ref.update({
             "outcome": {
                 "cardiac_arrest": 1,
@@ -542,7 +516,7 @@ def set_patient_outcome(patient_id):
 )
 def hard_delete_record(patient_id, record_id):
     try:
-        # 🔐 AUTH
+        #  AUTH
         auth_header = request.headers.get("Authorization")
         if not auth_header or not auth_header.startswith("Bearer "):
             return jsonify({"error": "Authorization token missing"}), 401
@@ -563,7 +537,7 @@ def hard_delete_record(patient_id, record_id):
         if not snap.exists:
             return jsonify({"error": "Record not found"}), 404
 
-        # 🧨 HARD DELETE
+        #  HARD DELETE
         record_ref.delete()
 
         return jsonify({

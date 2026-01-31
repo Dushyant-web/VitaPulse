@@ -39,7 +39,7 @@ def reject_hospital(request_id):
             "rejected_at": firestore.SERVER_TIMESTAMP
         })
 
-        # 🧾 AUDIT LOG
+     
         db.collection("audit_logs").add({
             "action": "REJECT_HOSPITAL",
             "admin_id": decoded["uid"],
@@ -49,7 +49,7 @@ def reject_hospital(request_id):
             "timestamp": firestore.SERVER_TIMESTAMP
         })
 
-        # 📧 REJECTION EMAIL
+       
         try:
             send_rejection_email(
                 email=data["email"],

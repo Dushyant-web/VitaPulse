@@ -2,7 +2,7 @@ import numpy as np
 import joblib
 import pandas as pd
 
-# Feature order MUST match training
+
 FEATURE_ORDER = [
     "age_years",
     "gender",
@@ -22,7 +22,7 @@ FEATURE_ORDER = [
     "dizziness"
 ]
 
-# Symptom encoders (MUST match training)
+
 CHEST_PAIN_MAP = {
     "none": 0,
     "mild": 1,
@@ -46,21 +46,14 @@ def preprocess_input(input_data: dict, scaler_path: str):
         float: Calculated BMI
     """
 
-    # -----------------------------
-    # 1. Age (years)
-    # -----------------------------
     age_years = int(input_data["age"])
 
-    # -----------------------------
-    # 2. BMI calculation
-    # -----------------------------
+
     height_m = float(input_data["height"]) / 100
     weight = float(input_data["weight"])
     bmi = weight / (height_m ** 2)
 
-    # -----------------------------
-    # 3. Symptoms (safe defaults)
-    # -----------------------------
+
     chest_pain_raw = input_data.get("chest_pain", "none")
     dizziness_raw = input_data.get("dizziness", "no")
 
@@ -79,9 +72,6 @@ def preprocess_input(input_data: dict, scaler_path: str):
     nausea = YES_NO_MAP.get(nausea_raw, 0)
     palpitations = YES_NO_MAP.get(palpitations_raw, 0)
 
-    # -----------------------------
-    # 4. Build feature dictionary
-    # -----------------------------
     features = {
         "age_years": age_years,
         "gender": int(input_data["gender"]),
@@ -101,15 +91,10 @@ def preprocess_input(input_data: dict, scaler_path: str):
         "dizziness": dizziness
     }
 
-    # -----------------------------
-    # 5. Order features
-    # -----------------------------
     feature_vector = [features[col] for col in FEATURE_ORDER]
     feature_array = pd.DataFrame([feature_vector], columns=FEATURE_ORDER)
 
-    # -----------------------------
-    # 6. Scale features
-    # -----------------------------
+
     scaler = joblib.load(scaler_path)
     scaled_features = scaler.transform(feature_array)
 

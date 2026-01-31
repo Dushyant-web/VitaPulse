@@ -5,9 +5,6 @@ from utils.auth import verify_admin_token
 
 auth_bp = Blueprint("auth", __name__)
 
-# ===============================
-# 🔐 LOGIN (handled by Firebase SDK)
-# ===============================
 @auth_bp.route("/auth/login", methods=["POST"])
 def login():
     return jsonify({
@@ -15,12 +12,10 @@ def login():
     }), 200
 
 
-# ===============================
-# 👤 WHO AM I (Hospital Profile)
-# ===============================
+
 @auth_bp.route("/auth/me", methods=["GET", "OPTIONS"])
 def me():
-    # ✅ Handle CORS preflight
+   
     if request.method == "OPTIONS":
         return "", 200
 
@@ -53,9 +48,7 @@ def me():
         return jsonify({"error": str(e)}), 401
 
 
-# ===============================
-# 🏥 ADMIN-ONLY HOSPITAL SIGNUP
-# ===============================
+
 @auth_bp.route("/auth/signup", methods=["POST"])
 def signup_hospital():
     try:
@@ -84,7 +77,7 @@ def signup_hospital():
             "email": data["email"],
             "created_at": firestore.SERVER_TIMESTAMP,
 
-            # 🔑 IMPORTANT
+            
             "is_first_login": True,
             "is_active": True
         })
@@ -98,9 +91,7 @@ def signup_hospital():
         return jsonify({"error": str(e)}), 400
 
 
-# ===============================
-# ✅ COMPLETE ONBOARDING
-# ===============================
+
 @auth_bp.route("/auth/complete-onboarding", methods=["POST"])
 def complete_onboarding():
     try:

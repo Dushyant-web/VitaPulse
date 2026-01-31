@@ -15,23 +15,15 @@ from utils.confidence import prediction_confidence
 from utils.ecg_validator import validate_ecg
 from utils.ecg_flags import generate_ecg_flags
 from utils.ecg_risk_delta import calculate_ecg_risk_delta
+from firebase_admin import firestore
 
 from firebase import db
-from firebase_admin import firestore
-from utils.model_loader import load_model
 
+#  Load ONCE at startup (fast + safe)
+model = joblib.load(MODEL_PATH)
+scaler = joblib.load(SCALER_PATH)
 
 predict_bp = Blueprint("predict", __name__)
-
-model = load_model()
-
-FEATURE_NAMES = [
-    "age_years", "gender", "height", "weight", "bmi",
-    "ap_hi", "ap_lo", "cholesterol", "gluc",
-    "smoke", "alco", "active",
-    "chest_pain", "nausea", "palpitations", "dizziness"
-]
-
 
 def get_hospital_id_by_email(email: str) -> str:
     hospitals = (
@@ -47,13 +39,108 @@ def get_hospital_id_by_email(email: str) -> str:
     raise ValueError("Hospital not registered in Firestore")
 
 
+CHEST_PAIN_MAP = {
+    "none": 0,
+    "mild": 1,
+    "moderate": 2,
+    "severe": 3
+}
+
+YES_NO_MAP = {
+    0: 0,
+    1: 1,
+    "no": 0,
+    "yes": 1,
+    False: 0,
+    True: 1
+}
+
+
+def build_model_input(input_data: dict):
+    """
+    Builds ML-ready feature vector EXACTLY as model expects
+    """
+
+    age_years = input_data["age"]
+
+    height = input_data["height"]
+    weight = input_data["weight"]
+
+    bmi = round(weight / ((height / 100) ** 2), 2)
+
+    #  ENCODE STRINGS → NUMBERS HERE
+    chest_pain_raw = input_data.get("chest_pain", "none")
+    chest_pain = CHEST_PAIN_MAP.get(str(chest_pain_raw).lower(), 0)
+
+    feature_vector = [[
+        age_years,
+        int(input_data["gender"]),
+        height,
+        weight,
+        bmi,
+        input_data["ap_hi"],
+        input_data["ap_lo"],
+        input_data["cholesterol"],
+        input_data["gluc"],
+        YES_NO_MAP.get(input_data.get("smoke"), 0),
+        YES_NO_MAP.get(input_data.get("alco"), 0),
+        YES_NO_MAP.get(input_data.get("active"), 0),
+        chest_pain,  # ✅FIXED
+        YES_NO_MAP.get(input_data.get("nausea"), 0),
+        YES_NO_MAP.get(input_data.get("palpitations"), 0),
+        YES_NO_MAP.get(input_data.get("dizziness"), 0),
+    ]]
+
+    return feature_vector, bmi
+
+def build_patient_risk_factors(input_data, bmi):
+    factors = []
+
+    if input_data["ap_hi"] >= 140:
+        factors.append({
+            "label": "High Blood Pressure",
+            "severity": "high",
+            "score": min(100, int((input_data["ap_hi"] - 120) * 1.5))
+        })
+
+    if bmi >= 25:
+        factors.append({
+            "label": "High BMI (Obesity)",
+            "severity": "medium",
+            "score": min(100, int((bmi - 23) * 10))
+        })
+
+    if input_data["cholesterol"] == 1:
+        factors.append({
+            "label": "High Cholesterol",
+            "severity": "medium",
+            "score": 60
+        })
+
+    if input_data["gluc"] == 1:
+        factors.append({
+            "label": "High Blood Glucose",
+            "severity": "medium",
+            "score": 60
+        })
+
+    if input_data["smoke"] == 1:
+        factors.append({
+            "label": "Smoking Habit",
+            "severity": "high",
+            "score": 70
+        })
+
+    return factors[:3]
+
+
 @predict_bp.route("/predict", methods=["POST"])
 def predict():
     try:
         data = request.get_json()
         save_flag = bool(data.get("save", True))
 
-        # ================= AUTH =================
+      
         auth_header = request.headers.get("Authorization")
         if not auth_header or not auth_header.startswith("Bearer "):
             raise ValueError("Authorization token missing")
@@ -62,7 +149,7 @@ def predict():
         _, hospital_email = verify_hospital_token(id_token)
         hospital_id = get_hospital_id_by_email(hospital_email)
 
-        # ================= INPUT =================
+        
         if "input" not in data:
             raise ValueError("Missing input data")
 
@@ -70,14 +157,14 @@ def predict():
         ecg_raw = data.get("ecg")
         doctor_note_text = (data.get("doctor_notes") or {}).get("text")
 
-        # ================= 🩺 OUTCOME =================
+      
         outcome_raw = data.get("outcome", {})
         cardiac_arrest = int(outcome_raw.get("cardiac_arrest", 0))
         confirmed_by = outcome_raw.get("confirmed_by")
 
         validate_input(input_data)
 
-        # ================= ECG =================
+    
         ecg = None
         ecg_flags = {"status": "not_recorded", "flags": []}
         ecg_risk_delta = {"delta": 0.0, "reasons": []}
@@ -89,19 +176,22 @@ def predict():
                 ecg_flags = generate_ecg_flags(ecg, input_data.get("gender"))
                 ecg_risk_delta = calculate_ecg_risk_delta(ecg)
 
-        # ================= ML =================
-        X_scaled, bmi = preprocess_input(input_data, SCALER_PATH)
+        from joblib import load
+        
+        
+        X_raw, bmi = build_model_input(input_data)
+        X_scaled = scaler.transform(X_raw)
+        
         probability = model.predict_proba(X_scaled)[0][1]
         risk_level = map_risk(probability)
 
-        # ================= EXPLANATION =================
-        top_features = get_top_features(model, FEATURE_NAMES)
+    
+        top_factors = build_patient_risk_factors(input_data, bmi)
         symptom_insights = explain_symptoms(input_data)
         explanation = generate_explanation(input_data, bmi)
         what_if = what_if_analysis(model, input_data)
         confidence = prediction_confidence(probability)
-
-        # ================= PATIENT =================
+       
         patient_id = data.get("patient_id")
         if not patient_id:
             raise ValueError("patient_id is required")
@@ -113,7 +203,7 @@ def predict():
             .document(patient_id)
         )
 
-        # ✅ PATIENT-LEVEL GROUND TRUTH
+       
         patient_update = {
             "gender": input_data.get("gender"),
             "updated_at": firestore.SERVER_TIMESTAMP,
@@ -126,7 +216,7 @@ def predict():
 
         patient_ref.set(patient_update, merge=True)
 
-        # ================= RECORD =================
+      
         record = {
             "created_at": firestore.SERVER_TIMESTAMP,
 
@@ -163,7 +253,7 @@ def predict():
             "confidence": confidence,
 
             "symptom_insights": symptom_insights,
-            "top_factors": top_features,
+            "top_factors": top_factors,
             "what_if": what_if,
 
             "ecg": ecg,
@@ -179,7 +269,7 @@ def predict():
                 else None
             ),
 
-            # ✅ OUTCOME
+            
             "outcome": {
                 "cardiac_arrest": cardiac_arrest,
                 "confirmed_by": confirmed_by,
@@ -191,7 +281,7 @@ def predict():
         if save_flag:
             patient_ref.collection("records").add(record)
 
-        # ================= 🔁 BACKFILL ALL VISITS =================
+         
         if save_flag and cardiac_arrest == 1:
             for rec in patient_ref.collection("records").stream():
                 rec.reference.set(
@@ -205,13 +295,13 @@ def predict():
                     merge=True
                 )
 
-        # ================= RESPONSE =================
+        
         return jsonify({
             "probability": round(float(probability), 3),
             "risk_level": risk_level,
             "confidence": confidence,
             "bmi": bmi,
-            "top_factors": top_features,
+            "top_factors": top_factors,
             "symptom_insights": symptom_insights,
             "explanation": explanation,
             "what_if": what_if,
@@ -219,6 +309,9 @@ def predict():
             "ecg_risk_delta": ecg_risk_delta,
             "disclaimer": "This is not a medical diagnosis",
         })
+    
+
+
 
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
@@ -226,3 +319,4 @@ def predict():
     except Exception as e:
         print("PREDICT ERROR:", e)
         return jsonify({"error": "Internal server error"}), 500
+ 

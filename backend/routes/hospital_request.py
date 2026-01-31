@@ -13,7 +13,7 @@ def create_hospital_request():
         if not data:
             return jsonify({"error": "Request body missing"}), 400
 
-        # ✅ REQUIRED FIELDS (phone REMOVED)
+        # REQUIRED FIELDS (phone REMOVED)
         required_fields = [
             "hospital_name",
             "email",
@@ -30,7 +30,7 @@ def create_hospital_request():
                     "error": f"Missing field: {field}"
                 }), 400
 
-        # 🔁 Prevent duplicate pending requests by email
+        # Prevent duplicate pending requests by email
         existing = (
             db.collection("hospital_requests")
             .where("email", "==", data["email"])
@@ -44,7 +44,7 @@ def create_hospital_request():
                 "error": "A request with this email is already pending"
             }), 409
 
-        # 📝 CREATE REQUEST DOCUMENT
+        #  CREATE REQUEST DOCUMENT
         doc_ref = db.collection("hospital_requests").add({
             "hospital_name": data["hospital_name"],
             "email": data["email"],
@@ -60,7 +60,7 @@ def create_hospital_request():
             "created_at": firestore.SERVER_TIMESTAMP
         })
 
-        # 📧 AUTO-EMAIL ADMIN (NON-BLOCKING)
+        #  AUTO-EMAIL ADMIN (NON-BLOCKING)
         try:
             send_admin_new_request_email(data)
         except Exception as e:

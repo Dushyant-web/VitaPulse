@@ -6,13 +6,11 @@ from datetime import datetime, timedelta, timezone
 
 dashboard_bp = Blueprint("dashboard", __name__)
 
-# =====================================================
-# 📊 DASHBOARD ANALYTICS (HOSPITAL ONLY)
-# =====================================================
+
 @dashboard_bp.route("/dashboard/analytics", methods=["GET"])
 def dashboard_analytics():
     try:
-        # 🔐 AUTH
+        
         auth_header = request.headers.get("Authorization")
         if not auth_header or not auth_header.startswith("Bearer "):
             return jsonify({"error": "Authorization token missing"}), 401
@@ -34,7 +32,7 @@ def dashboard_analytics():
         new_today = 0
         new_last_7_days = 0
 
-        # 📅 date -> count map (FOR 30 DAYS)
+       
         daily_counts = {}
 
         for doc in patients_ref.stream():
@@ -52,19 +50,19 @@ def dashboard_analytics():
             created_dt = created_at.replace(tzinfo=timezone.utc)
             created_date = created_dt.date()
 
-            # 🟢 Today
+           
             if created_dt >= today_start:
                 new_today += 1
 
-            # 🟢 Last 7 days
+            
             if created_dt >= today_start - timedelta(days=6):
                 new_last_7_days += 1
 
-            # 🟦 Track for daily graph (30 days)
+            
             day_key = created_date.isoformat()
             daily_counts[day_key] = daily_counts.get(day_key, 0) + 1
 
-        # 📊 Build FULL 30-DAY SERIES
+       
         daily_list = []
         start_date = today_start.date() - timedelta(days=29)
 

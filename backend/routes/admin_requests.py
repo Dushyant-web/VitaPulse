@@ -4,9 +4,7 @@ from firebase import db
 
 admin_requests_bp = Blueprint("admin_requests", __name__)
 
-# ===============================
-# 🔐 VERIFY ADMIN
-# ===============================
+
 def verify_admin(request):
     auth_header = request.headers.get("Authorization")
     if not auth_header:
@@ -24,9 +22,6 @@ def verify_admin(request):
     return decoded
 
 
-# ===============================
-# 📋 LIST PENDING REQUESTS
-# ===============================
 @admin_requests_bp.route("/admin/hospital-requests", methods=["GET"])
 def list_hospital_requests():
     try:

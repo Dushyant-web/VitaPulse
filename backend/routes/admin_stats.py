@@ -4,9 +4,7 @@ from firebase import db
 
 admin_stats_bp = Blueprint("admin_stats", __name__)
 
-# ===============================
-# 🔐 VERIFY ADMIN
-# ===============================
+
 def verify_admin(request):
     auth_header = request.headers.get("Authorization")
     if not auth_header:
@@ -23,9 +21,7 @@ def verify_admin(request):
     return decoded
 
 
-# ===============================
-# 📊 ADMIN STATS
-# ===============================
+
 @admin_stats_bp.route("/admin/stats", methods=["GET"])
 def get_admin_stats():
     try:

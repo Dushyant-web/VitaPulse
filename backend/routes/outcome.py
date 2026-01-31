@@ -9,7 +9,7 @@ outcome_bp = Blueprint("outcome", __name__)
 @outcome_bp.route("/patients/<patient_id>/outcome", methods=["POST"])
 def mark_patient_outcome(patient_id):
     try:
-        # 🔐 AUTH
+        #  AUTH
         auth_header = request.headers.get("Authorization")
         if not auth_header or not auth_header.startswith("Bearer "):
             raise ValueError("Authorization token missing")
@@ -34,7 +34,7 @@ def mark_patient_outcome(patient_id):
         if not patient_doc.exists:
             raise ValueError("Patient not found")
 
-        # 🔒 CHECK IF ALREADY MARKED
+        #  CHECK IF ALREADY MARKED
         existing = patient_doc.to_dict().get("outcome", {})
         if existing.get("cardiac_arrest") == 1:
             return jsonify({
@@ -42,7 +42,7 @@ def mark_patient_outcome(patient_id):
                 "cardiac_arrest": 1
             }), 200
 
-        # ✅ SAVE ONCE (IMMUTABLE)
+        #  SAVE ONCE (IMMUTABLE)
         patient_ref.set({
             "outcome": {
                 "cardiac_arrest": 1,

@@ -6,9 +6,6 @@ from utils.email_sender import send_hospital_credentials, send_welcome_kit
 
 admin_approve_bp = Blueprint("admin_approve", __name__)
 
-# ===============================
-# 🔐 VERIFY ADMIN
-# ===============================
 def verify_admin(request):
     auth_header = request.headers.get("Authorization")
     if not auth_header:
@@ -24,17 +21,14 @@ def verify_admin(request):
     return decoded
 
 
-# ===============================
-# ✅ APPROVE HOSPITAL
-# ===============================
 @admin_approve_bp.route("/admin/hospital-requests/<request_id>/approve", methods=["POST"])
 def approve_hospital(request_id):
     try:
-        # 🔐 ADMIN AUTH
+        # ADMIN AUTH
         decoded = verify_admin(request)
         print("STEP 1: Admin verified")
 
-        # 📋 FETCH REQUEST
+        # FETCH REQUEST
         req_ref = db.collection("hospital_requests").document(request_id)
         req_doc = req_ref.get()
 
@@ -47,7 +41,7 @@ def approve_hospital(request_id):
 
         print("STEP 2: Request fetched")
 
-        # 🔐 CREATE / REUSE USER
+        # CREATE / REUSE USER
         password = secrets.token_urlsafe(10)
 
         try:
@@ -59,7 +53,7 @@ def approve_hospital(request_id):
 
         hospital_id = user.uid
 
-        # 🏥 CREATE HOSPITAL DOC
+        #  CREATE HOSPITAL DOC
         db.collection("hospitals").document(hospital_id).set({
             "name": data["hospital_name"],
             "email": data["email"],
@@ -73,28 +67,28 @@ def approve_hospital(request_id):
 
         print("STEP 4: Hospital document created")
 
-        # 📧 SEND LOGIN EMAIL
+        # SEND LOGIN EMAIL
         try:
             send_hospital_credentials(data["email"], password)
             print("STEP 5: Credentials email sent")
         except Exception as e:
             print("CREDENTIAL EMAIL FAILED:", e)
 
-        # 📦 SEND WELCOME KIT
+        #  SEND WELCOME KIT
         try:
             send_welcome_kit(data["email"], data["hospital_name"])
             print("STEP 6: Welcome kit sent")
         except Exception as e:
             print("WELCOME KIT FAILED:", e)
 
-        # ✅ UPDATE REQUEST STATUS
+        # UPDATE REQUEST STATUS
         req_ref.update({
             "status": "approved",
             "approved_at": firestore.SERVER_TIMESTAMP,
             "hospital_id": hospital_id
         })
 
-        # 🧾 AUDIT LOG
+        #  AUDIT LOG
         db.collection("audit_logs").add({
             "action": "APPROVE_HOSPITAL",
             "admin_id": decoded["uid"],

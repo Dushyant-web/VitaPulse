@@ -9,9 +9,7 @@ patient_contact_bp = Blueprint("patient_contact", __name__)
 @patient_contact_bp.route("/patients/<patient_id>/contact", methods=["PATCH"])
 def update_patient_contact(patient_id):
     try:
-        # =============================
-        # 🔐 AUTH (Hospital only)
-        # =============================
+
         auth_header = request.headers.get("Authorization")
 
         if not auth_header or not auth_header.startswith("Bearer "):
@@ -20,9 +18,7 @@ def update_patient_contact(patient_id):
         id_token = auth_header.replace("Bearer ", "").strip()
         hospital_id, _ = verify_hospital_token(id_token)
 
-        # =============================
-        # 📥 INPUT
-        # =============================
+
         data = request.get_json()
 
         patient_email = data.get("patient_email")
@@ -31,9 +27,7 @@ def update_patient_contact(patient_id):
         if patient_email is None and guardian_email is None:
             raise ValueError("At least one email field must be provided")
 
-        # =============================
-        # 📂 PATIENT REF
-        # =============================
+
         patient_ref = (
             db.collection("hospitals")
             .document(hospital_id)
@@ -44,9 +38,7 @@ def update_patient_contact(patient_id):
         if not patient_ref.get().exists:
             raise ValueError("Patient not found")
 
-        # =============================
-        # 💾 UPDATE (MUTABLE)
-        # =============================
+
         update_data = {
             "updated_at": firestore.SERVER_TIMESTAMP
         }

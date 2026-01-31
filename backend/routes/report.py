@@ -34,7 +34,7 @@ def patient_pdf_report(patient_id):
     for r in patient_ref.collection("records").order_by("created_at").stream():
         d = r.to_dict() or {}
 
-        # ✅ SAFE DOCTOR NOTE HANDLING
+        #  SAFE DOCTOR NOTE HANDLING
         doctor_notes = d.get("doctor_notes") or {}
 
         records.append({
